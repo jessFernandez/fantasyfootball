@@ -1,0 +1,3954 @@
+<title>Draft Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
+
+<style>
+/* ============================================================
+   TOKENS — light is the bare :root; dark redefined in both the
+   media query (OS setting) and the [data-theme] stamp (toggle).
+   Every color below is a token; nothing is declared only inside
+   a themed block.
+   ============================================================ */
+:root {
+  color-scheme: light;
+
+  --bg:            #f2efe9;
+  --surface:       #ffffff;
+  --surface-2:     #f8f6f1;
+  --surface-3:     #edeae3;
+  --line:          #ddd8ce;
+  --line-soft:     #e8e4db;
+  --line-strong:   #c2bbad;
+
+  --ink:           #14181b;
+  --ink-2:         #4e555c;
+  --ink-3:         #838b93;
+
+  --accent:        #f0a51e;
+  --accent-ink:    #17120a;
+  --accent-text:   #8a5900;
+  --accent-soft:   #fbeccb;
+
+  --pos-QB:  #6420aa;
+  --pos-RB:  #eb476b;
+  --pos-WR:  #0d99b3;
+  --pos-TE:  #415a00;
+  --pos-K:   #63696f;
+  --pos-DST: #4a5560;
+  --pos-ink: #ffffff;
+
+  --good:          #0a7d0a;
+  --warn:          #b07600;
+  --crit:          #c1342f;
+  --good-soft:     #e2f2e2;
+  --warn-soft:     #fbeed0;
+  --crit-soft:     #f8e2e1;
+
+  --shadow:        0 1px 2px rgba(20,24,27,.07), 0 6px 18px rgba(20,24,27,.05);
+  --shadow-lift:   0 2px 6px rgba(20,24,27,.10), 0 14px 34px rgba(20,24,27,.10);
+
+  --r-sm: 3px;  --r-md: 5px;  --r-lg: 8px;
+
+  --sans: "IBM Plex Sans Condensed", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --display: "Archivo", "Segoe UI", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:          #0e1417;
+    --surface:     #141b1f;
+    --surface-2:   #1a2429;
+    --surface-3:   #223037;
+    --line:        #263238;
+    --line-soft:   #1c262b;
+    --line-strong: #3a4c55;
+    --ink:         #eef3f5;
+    --ink-2:       #a3b1b8;
+    --ink-3:       #71828b;
+    --accent:      #f0a51e;
+    --accent-ink:  #14100a;
+    --accent-text: #f2b446;
+    --accent-soft: #33270e;
+    --pos-QB:  #804fc3;
+    --pos-RB:  #e85b75;
+    --pos-WR:  #0fa3bf;
+    --pos-TE:  #6f9409;
+    --pos-K:   #7e888f;
+    --pos-DST: #61727d;
+    --pos-ink: #0b1113;
+    --good:      #35bb46;
+    --warn:      #f0b429;
+    --crit:      #ee5f5b;
+    --good-soft: #16301b;
+    --warn-soft: #33280d;
+    --crit-soft: #3a1e1e;
+    --shadow:      0 1px 2px rgba(0,0,0,.5), 0 6px 18px rgba(0,0,0,.35);
+    --shadow-lift: 0 2px 6px rgba(0,0,0,.55), 0 14px 34px rgba(0,0,0,.45);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:          #0e1417;
+  --surface:     #141b1f;
+  --surface-2:   #1a2429;
+  --surface-3:   #223037;
+  --line:        #263238;
+  --line-soft:   #1c262b;
+  --line-strong: #3a4c55;
+  --ink:         #eef3f5;
+  --ink-2:       #a3b1b8;
+  --ink-3:       #71828b;
+  --accent:      #f0a51e;
+  --accent-ink:  #14100a;
+  --accent-text: #f2b446;
+  --accent-soft: #33270e;
+  --pos-QB:  #804fc3;
+  --pos-RB:  #e85b75;
+  --pos-WR:  #0fa3bf;
+  --pos-TE:  #6f9409;
+  --pos-K:   #7e888f;
+  --pos-DST: #61727d;
+  --pos-ink: #0b1113;
+  --good:      #35bb46;
+  --warn:      #f0b429;
+  --crit:      #ee5f5b;
+  --good-soft: #16301b;
+  --warn-soft: #33280d;
+  --crit-soft: #3a1e1e;
+  --shadow:      0 1px 2px rgba(0,0,0,.5), 0 6px 18px rgba(0,0,0,.35);
+  --shadow-lift: 0 2px 6px rgba(0,0,0,.55), 0 14px 34px rgba(0,0,0,.45);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: contain;
+}
+
+button, input, select { font: inherit; color: inherit; }
+input[type="range"], input[type="checkbox"] { accent-color: var(--accent); }
+button { cursor: pointer; border: none; background: none; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100dvh;
+  max-width: 1600px;
+  margin: 0 auto;
+  background: var(--bg);
+}
+
+/* ============================================================
+   STATUS BAR — the draft's vital signs, always visible
+   ============================================================ */
+.status {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: stretch;
+  gap: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+.status::after {
+  content: "";
+  position: absolute; inset-inline: 0; bottom: -1px; height: 2px;
+  background: var(--line);
+  transition: background .2s;
+}
+.status[data-mine="1"]::after { background: var(--accent); }
+
+/* Hero number: picks until your turn */
+.clock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-right: 1px solid var(--line);
+  min-width: 132px;
+}
+.clock-n {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 40px;
+  line-height: .84;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.status[data-mine="1"] .clock-n { color: var(--accent-text); }
+.clock-lab { font-size: 11px; line-height: 1.15; color: var(--ink-3); max-width: 62px; }
+.clock-lab b { display: block; color: var(--ink-2); font-weight: 600; }
+
+.status[data-mine="1"] .clock {
+  background: var(--accent);
+}
+.status[data-mine="1"] .clock-n,
+.status[data-mine="1"] .clock-lab,
+.status[data-mine="1"] .clock-lab b { color: var(--accent-ink); }
+
+.status-mid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  padding: 9px 14px;
+  min-width: 0;
+}
+.status-line1 {
+  display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+}
+.rp {
+  font-family: var(--mono);
+  font-size: 17px; font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+.onclock {
+  font-size: 13px; font-weight: 600; color: var(--ink-2);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.status-line2 { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+
+.status-act { display: flex; align-items: stretch; border-left: 1px solid var(--line); }
+.sbtn {
+  padding: 0 15px;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase;
+  color: var(--ink-2);
+  border-right: 1px solid var(--line);
+  transition: background .12s, color .12s;
+  font-family: var(--mono);
+}
+.sbtn:last-child { border-right: none; }
+.sbtn:hover:not(:disabled) { background: var(--surface-2); color: var(--ink); }
+.sbtn:disabled { color: var(--ink-3); opacity: .45; cursor: default; }
+
+/* Alert chips — state in form as well as color */
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 11px; font-weight: 600;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.chip .dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.chip-warn { background: var(--warn-soft); color: var(--warn); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+.chip-warn .dot { background: var(--warn); }
+.chip-crit { background: var(--crit-soft); color: var(--crit); border-color: color-mix(in srgb, var(--crit) 35%, transparent); }
+.chip-crit .dot { background: var(--crit); }
+.chip-good { background: var(--good-soft); color: var(--good); border-color: color-mix(in srgb, var(--good) 35%, transparent); }
+.chip-good .dot { background: var(--good); }
+.chip-mute { background: var(--surface-2); color: var(--ink-2); border-color: var(--line); }
+.chip-mute .dot { background: var(--ink-3); }
+
+/* ============================================================
+   MAIN / PANES
+   ============================================================ */
+.main { overflow: hidden; min-height: 0; }
+.pane { display: none; height: 100%; overflow-y: auto; overscroll-behavior: contain; }
+.pane.on { display: block; }
+.pane-split { display: none; height: 100%; min-height: 0; }
+.pane-split.on { display: grid; grid-template-columns: 1fr; }
+.col { overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+.col-side { display: none; border-left: 1px solid var(--line); background: var(--surface-2); }
+
+@media (min-width: 900px) {
+  .pane-split.on { grid-template-columns: minmax(0,1fr) 340px; }
+  .col-side { display: block; }
+}
+
+.wrap { padding: 14px; max-width: 760px; margin: 0 auto; }
+.wrap-wide { padding: 14px; }
+
+/* ============================================================
+   SEARCH + FILTERS
+   ============================================================ */
+.toolbar {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 9px 10px 8px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.searchrow { display: flex; gap: 7px; }
+.search {
+  flex: 1; min-width: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 9px 11px;
+  font-size: 16px; /* >=16px stops iOS/Android zoom-on-focus */
+  color: var(--ink);
+}
+.search::placeholder { color: var(--ink-3); }
+.search:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+
+.sortsel {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 0 8px;
+  font-size: 13px;
+  max-width: 138px;
+}
+
+.srcrow { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; align-items: center; }
+.srcrow::-webkit-scrollbar { display: none; }
+.srcrow .eyebrow { flex: none; padding-right: 2px; }
+.sbtn-src {
+  flex: none; padding: 5px 10px; border-radius: var(--r-sm);
+  border: 1px solid var(--line); background: var(--surface-2);
+  font-size: 11.5px; font-weight: 600; color: var(--ink-2);
+  max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.sbtn-src[aria-pressed="true"] {
+  background: var(--accent-soft); border-color: var(--accent); color: var(--accent-text);
+}
+
+.filters { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; padding-bottom: 1px; }
+.filters::-webkit-scrollbar { display: none; }
+.fbtn {
+  flex: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  font-size: 12px; font-weight: 600;
+  font-family: var(--mono); letter-spacing: .04em;
+  color: var(--ink-2);
+  transition: background .12s, color .12s, border-color .12s;
+}
+.fbtn[aria-pressed="true"] {
+  background: var(--ink); color: var(--surface); border-color: var(--ink);
+}
+.fbtn[data-pos][aria-pressed="true"] { background: var(--p); border-color: var(--p); color: var(--pos-ink); }
+
+/* ============================================================
+   PLAYER ROWS — the thing you actually stare at
+   ============================================================ */
+.verdict {
+  display: flex; align-items: center; gap: 9px;
+  width: 100%; text-align: left;
+  padding: 9px 12px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+}
+.verdict-pos {
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  padding: 3px 8px; border-radius: var(--r-sm);
+  background: var(--p); color: var(--pos-ink); flex: none;
+}
+.verdict-t { font-size: 13.5px; min-width: 0; }
+.verdict-t b { font-weight: 600; }
+.verdict-t span { color: var(--ink-3); }
+.verdict-n {
+  margin-left: auto; flex: none;
+  font-family: var(--mono); font-size: 13px; font-weight: 600;
+  color: var(--good); font-variant-numeric: tabular-nums;
+}
+
+.list { padding-bottom: 12px; }
+
+.tierbreak {
+  display: flex; align-items: center; gap: 9px;
+  padding: 15px 12px 6px;
+  background: var(--bg);
+}
+.tierbreak .ln { flex: 1; height: 1px; background: var(--line-strong); }
+
+.row {
+  display: grid;
+  grid-template-columns: 42px 40px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 12px;
+  min-height: 54px; /* thumb-sized */
+  border-bottom: 1px solid var(--line-soft);
+  /* transparent on every row so tagged ones don't shift the text 2px */
+  border-left: 2px solid transparent;
+  background: var(--surface);
+  text-align: left;
+  transition: background .1s;
+}
+.row:active { background: var(--surface-3); }
+.row.queued { background: linear-gradient(90deg, var(--accent-soft), var(--surface) 55%); }
+.row[data-note="target"] { border-left-color: var(--good); }
+.row[data-note="avoid"]  { border-left-color: var(--crit); }
+.row[data-note="watch"]  { border-left-color: var(--warn); }
+/* two sources reaching opposite verdicts is its own thing worth seeing */
+.row[data-note="split"]  { border-left-color: var(--warn); }
+
+.rk {
+  font-family: var(--mono); font-variant-numeric: tabular-nums;
+  font-size: 13px; font-weight: 500; color: var(--ink-3);
+  text-align: right;
+}
+.rk small { display: block; font-size: 10px; color: var(--ink-3); opacity: .8; }
+
+.pos {
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 600; letter-spacing: .02em;
+  text-align: center;
+  padding: 3px 0;
+  border-radius: var(--r-sm);
+  background: var(--p);
+  color: var(--pos-ink);
+}
+
+.who { min-width: 0; }
+.nm {
+  font-size: 15.5px; font-weight: 600; letter-spacing: -.005em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.meta {
+  display: flex; gap: 7px; align-items: center;
+  font-size: 11.5px; color: var(--ink-3);
+  font-family: var(--mono);
+  white-space: nowrap; overflow: hidden;
+}
+.meta .sep { opacity: .4; }
+
+.rt { display: flex; align-items: center; gap: 8px; }
+
+/* Survival meter: direct-labelled, never color alone */
+.surv { width: 46px; flex: none; }
+.surv-n {
+  font-family: var(--mono); font-variant-numeric: tabular-nums;
+  font-size: 12px; font-weight: 600; text-align: right;
+  color: var(--ink-2);
+}
+.surv-bar {
+  height: 3px; margin-top: 3px; border-radius: 2px;
+  background: var(--surface-3); overflow: hidden;
+}
+.surv-fill { height: 100%; border-radius: 2px; background: var(--ink-3); }
+.surv[data-band="hi"]  .surv-fill { background: var(--good); }
+.surv[data-band="mid"] .surv-fill { background: var(--warn); }
+.surv[data-band="lo"]  .surv-fill { background: var(--crit); }
+.surv[data-band="hi"]  .surv-n { color: var(--good); }
+.surv[data-band="mid"] .surv-n { color: var(--warn); }
+.surv[data-band="lo"]  .surv-n { color: var(--crit); }
+
+.val {
+  font-family: var(--mono); font-variant-numeric: tabular-nums;
+  font-size: 12px; font-weight: 600;
+  min-width: 34px; text-align: right;
+}
+.val.up { color: var(--good); }
+.val.down { color: var(--ink-3); }
+
+.qbtn {
+  flex: none; width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border-radius: var(--r-sm);
+  color: var(--ink-3);
+  font-size: 15px;
+}
+.qbtn[aria-pressed="true"] { color: var(--accent-text); }
+.qbtn:hover { background: var(--surface-3); }
+
+.empty { padding: 44px 20px; text-align: center; color: var(--ink-3); font-size: 14px; }
+
+/* ============================================================
+   CARDS / SIDE PANEL
+   ============================================================ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.card-h {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.card-b { padding: 11px 12px; }
+.card-b.flush { padding: 0; }
+
+/* Scarcity meters — one row per position, count direct-labelled */
+.scar { display: flex; flex-direction: column; gap: 8px; }
+.scar-row { display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 9px; }
+.scar-track { height: 7px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
+.scar-fill { height: 100%; border-radius: 4px; background: var(--p); }
+.scar-n { font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.scar-n b { color: var(--ink); font-weight: 600; }
+
+/* Roster slots */
+.slots { display: flex; flex-direction: column; }
+.slot {
+  display: grid; grid-template-columns: 46px minmax(0,1fr) auto;
+  align-items: center; gap: 9px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.slot:last-child { border-bottom: none; }
+.slot-lab {
+  font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: .08em; color: var(--ink-3);
+}
+.slot.filled .slot-lab { color: var(--ink-2); }
+.slot-nm { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.slot.open .slot-nm { color: var(--ink-3); font-weight: 400; font-style: italic; }
+.slot-bye { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+.slot-bye.clash { color: var(--crit); font-weight: 600; }
+
+/* ---- My Team: stat tiles ---- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px,1fr)); gap: 9px; margin-bottom: 12px; }
+.tile {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: 11px 12px 10px;
+}
+.tile-n {
+  font-family: var(--display); font-weight: 800; font-size: 28px; line-height: 1;
+  letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--ink);
+}
+.tile-n.sm { font-size: 21px; }
+.tile-l {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px;
+}
+.tile-c { font-size: 12px; margin-top: 4px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.tile-c.up { color: var(--good); } .tile-c.down { color: var(--crit); }
+
+/* ---- positional strength: diverging from a centre line ----
+   The bar's colour says which position; which side of the line it sits on
+   says ahead or behind. Every bar carries its own number, so nothing is
+   read from colour alone. */
+.pbars { display: flex; flex-direction: column; gap: 9px; }
+.pbar-row { display: grid; grid-template-columns: 34px 1fr 52px; gap: 9px; align-items: center; }
+.pbar-track { position: relative; height: 18px; }
+.pbar-track::before {
+  content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px;
+  width: 1px; background: var(--line-strong);
+}
+.pbar-fill { position: absolute; top: 3px; height: 12px; background: var(--p); border-radius: 2px; min-width: 2px; }
+.pbar-n {
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2);
+}
+.pbar-n.up { color: var(--good); } .pbar-n.down { color: var(--crit); }
+.pbar-scale {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 10px; color: var(--ink-3);
+  padding: 2px 61px 0 43px;
+}
+
+/* ---- bye weeks as columns ---- */
+.byecols { display: flex; gap: 4px; align-items: flex-end; }
+.byecol { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.byecol-track {
+  width: 100%; height: 44px; display: flex; flex-direction: column-reverse;
+  background: var(--surface-2); border-radius: var(--r-sm); overflow: hidden;
+}
+.byecol-seg { width: 100%; background: var(--p); border-top: 2px solid var(--surface); }
+.byecol-seg:first-child { border-top: none; }
+.byecol-w { font-family: var(--mono); font-size: 10px; color: var(--ink-3); }
+.byecol.hot .byecol-w { color: var(--crit); font-weight: 600; }
+.byecol-n { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--ink-2); }
+.byecol.empty-col .byecol-n { color: var(--ink-3); opacity: .45; }
+
+/* ---- draft shape ---- */
+.shape { display: flex; flex-wrap: wrap; gap: 4px; }
+.shape-pick {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  min-width: 34px;
+}
+.shape-chip {
+  width: 100%; padding: 4px 0; border-radius: var(--r-sm);
+  background: var(--p); color: var(--pos-ink);
+  font-family: var(--mono); font-size: 10px; font-weight: 600; text-align: center;
+}
+.shape-r { font-family: var(--mono); font-size: 9.5px; color: var(--ink-3); }
+
+/* ---- points bar inside a roster row ---- */
+.slot-mid { min-width: 0; }
+.slot-mid .slot-nm { display: block; }
+.slot-bar {
+  display: block;                 /* an inline span ignores height entirely */
+  height: 3px; margin-top: 5px; max-width: 220px;
+  border-radius: 2px; background: var(--surface-3); overflow: hidden;
+}
+.slot-bar i { display: block; height: 100%; background: var(--p); border-radius: 2px; }
+.slot-pts { font-family: var(--mono); font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* Bye grid */
+.byes { display: flex; flex-wrap: wrap; gap: 4px; }
+.bye {
+  font-family: var(--mono); font-size: 11px;
+  padding: 3px 6px; border-radius: var(--r-sm);
+  background: var(--surface-2); border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+.bye.clash { background: var(--crit-soft); border-color: var(--crit); color: var(--crit); font-weight: 600; }
+
+/* Run strip */
+.runs { display: flex; gap: 3px; }
+.run-cell {
+  flex: 1; height: 24px; border-radius: var(--r-sm);
+  background: var(--p);
+  display: grid; place-items: center;
+  font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+  color: var(--pos-ink);
+}
+.run-cell.empty-cell { background: var(--surface-3); }
+
+/* League grid */
+.teams { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
+.team {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); overflow: hidden;
+}
+.team.me { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.team-h {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 11px; border-bottom: 1px solid var(--line-soft);
+  background: var(--surface-2);
+}
+.team-n { font-size: 13px; font-weight: 700; }
+.team-need { display: flex; gap: 4px; }
+.need-tag {
+  font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+  padding: 2px 5px; border-radius: var(--r-sm);
+  background: var(--p); color: var(--pos-ink); opacity: .92;
+}
+.team-list { padding: 5px 0; }
+.team-p {
+  display: grid; grid-template-columns: 32px minmax(0,1fr);
+  gap: 7px; align-items: center;
+  padding: 3px 11px; font-size: 12.5px;
+}
+.team-p.with-val { grid-template-columns: 32px minmax(0,1fr) auto; }
+.team-p .pos { font-size: 9.5px; padding: 2px 0; }
+.team-p span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Log */
+.log-row {
+  display: grid; grid-template-columns: 52px 40px minmax(0,1fr) auto;
+  gap: 9px; align-items: center;
+  padding: 8px 12px; border-bottom: 1px solid var(--line-soft);
+  background: var(--surface);
+}
+.log-row.mine { background: var(--accent-soft); }
+
+.ntag { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .02em; }
+.stag {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .04em;
+  border: 1px solid; border-radius: var(--r-sm); padding: 0 3px;
+}
+
+.polrow { display: flex; gap: 5px; }
+.polbtn {
+  flex: 1; padding: 8px 6px; border-radius: var(--r-md);
+  border: 1px solid var(--line); background: var(--surface-2);
+  font-size: 12.5px; font-weight: 600; color: var(--ink-2);
+  white-space: nowrap;
+}
+.polbtn[aria-pressed="true"] { border-color: currentColor; background: var(--surface-3); }
+.polbtn[data-pol="target"][aria-pressed="true"] { color: var(--good); }
+.polbtn[data-pol="watch"][aria-pressed="true"]  { color: var(--warn); }
+.polbtn[data-pol="avoid"][aria-pressed="true"]  { color: var(--crit); }
+
+.scanhead {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 12px 6px;
+}
+.scanrow {
+  display: grid; grid-template-columns: 22px 40px minmax(0,1fr);
+  gap: 9px; align-items: center;
+  padding: 7px 12px; border-bottom: 1px solid var(--line-soft);
+  width: 100%; text-align: left;
+}
+.scanrow:last-child { border-bottom: none; }
+.scanrow input { width: 17px; height: 17px; }
+.scan-nm { font-size: 14px; font-weight: 600; }
+.scan-cx {
+  font-family: var(--mono); font-size: 11px; color: var(--ink-3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.noterow { padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
+.noterow:last-child { border-bottom: none; }
+.note-h { display: flex; align-items: center; gap: 8px; }
+.note-src { font-size: 12.5px; color: var(--ink-2); flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.note-snip {
+  font-family: var(--mono); font-size: 11.5px; line-height: 1.5;
+  color: var(--ink-3); margin-top: 4px;
+}
+
+.srcrow2 { display: flex; align-items: stretch; border-bottom: 1px solid var(--line-soft); }
+.srcrow2:last-child { border-bottom: none; }
+.srcrow2 .xbtn { align-self: center; margin-right: 8px; }
+.srcline {
+  display: block; width: 100%; text-align: left;
+  padding: 9px 12px; border-bottom: 1px solid var(--line-soft);
+  border-left: 3px solid transparent;
+}
+.srcrow2 .srcline { border-bottom: none; }
+.srcline:hover { background: var(--surface-2); }
+.srcline.on, .srcrow2.on .srcline { border-left-color: var(--accent); background: var(--accent-soft); }
+.srcline-n { display: block; font-size: 14px; font-weight: 600; }
+.srcline-m { display: block; font-size: 11.5px; color: var(--ink-3); font-family: var(--mono); }
+.chev { color: var(--ink-3); font-size: 10px; margin-left: 2px; }
+.notelist {
+  padding: 5px 0 8px; background: var(--surface-2);
+  border-bottom: 1px solid var(--line-soft);
+}
+.log-pk { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.log-team { font-size: 11.5px; color: var(--ink-2); font-family: var(--mono); }
+.xbtn {
+  width: 28px; height: 28px; border-radius: var(--r-sm);
+  display: grid; place-items: center; color: var(--ink-3); font-size: 16px;
+}
+.xbtn:hover { background: var(--crit-soft); color: var(--crit); }
+
+/* ============================================================
+   SETUP
+   ============================================================ */
+.field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.field label { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.hint { display: block; font-size: 11.5px; color: var(--ink-3); line-height: 1.35; }
+.field > .hint { margin-top: 1px; }
+.card + .hint, .slotgrid + .hint, .btnrow + .hint { margin: 7px 0 2px; }
+.inp, .sel, .ta {
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: var(--r-md); padding: 8px 10px; font-size: 15px; width: 100%;
+}
+.ta { font-family: var(--mono); font-size: 12px; min-height: 116px; resize: vertical; line-height: 1.5; }
+.inp:focus, .sel:focus, .ta:focus { outline: none; border-color: var(--accent); }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px,1fr)); gap: 10px; }
+.slotgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px,1fr)); gap: 8px; }
+/* Wider cells so every scoring label fits on one line and the inputs line up */
+.scoregrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px,1fr)); gap: 9px; }
+.scoregrid .slotf label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scoregrid .inp { text-align: center; }
+.slotf { display: flex; flex-direction: column; gap: 3px; }
+.slotf label { font-family: var(--mono); font-size: 10.5px; letter-spacing: .07em; color: var(--ink-3); }
+.slotf input { text-align: center; }
+
+.btn {
+  padding: 9px 15px; border-radius: var(--r-md);
+  font-size: 13.5px; font-weight: 600;
+  background: var(--surface-2); border: 1px solid var(--line); color: var(--ink);
+  transition: background .12s, border-color .12s;
+}
+.btn:hover { background: var(--surface-3); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn-primary:hover { filter: brightness(1.07); background: var(--accent); }
+.btn-danger { color: var(--crit); border-color: color-mix(in srgb, var(--crit) 40%, var(--line)); }
+.btn-danger:hover { background: var(--crit-soft); }
+.btnrow { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.banner {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 12px; border-radius: var(--r-md);
+  font-size: 13px; line-height: 1.45; margin-bottom: 12px;
+}
+.banner b { display: block; margin-bottom: 2px; }
+.banner-warn { background: var(--warn-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--warn) 40%, transparent); }
+.banner-warn .ic { color: var(--warn); }
+.banner-info { background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-2); }
+.ic { font-size: 15px; line-height: 1.3; flex: none; }
+
+.maprow { display: grid; grid-template-columns: 92px 1fr; gap: 8px; align-items: center; margin-bottom: 7px; }
+.maprow label { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; color: var(--ink-2); }
+
+h2.sec {
+  font-family: var(--display); font-weight: 700; font-size: 15px;
+  letter-spacing: -.01em; margin: 22px 0 10px; text-wrap: balance;
+}
+h2.sec:first-child { margin-top: 0; }
+
+/* ============================================================
+   SHEET (assign / correct a pick)
+   ============================================================ */
+.scrim {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(6,10,12,.55);
+  display: none; align-items: flex-end; justify-content: center;
+}
+.scrim.on { display: flex; }
+.sheet {
+  background: var(--surface);
+  border-top-left-radius: 14px; border-top-right-radius: 14px;
+  width: 100%; max-width: 560px; max-height: 82dvh;
+  overflow-y: auto; box-shadow: var(--shadow-lift);
+  animation: rise .16s ease-out;
+}
+@keyframes rise { from { transform: translateY(14px); opacity: .6; } }
+@media (prefers-reduced-motion: reduce) { .sheet { animation: none; } }
+.sheet-h { padding: 14px 15px 10px; border-bottom: 1px solid var(--line); }
+.sheet-t { font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
+.sheet-s { font-size: 12.5px; color: var(--ink-3); font-family: var(--mono); margin-top: 2px; }
+.sheet-b { padding: 11px 15px 22px; }
+.pick-team {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 11px 12px; margin-bottom: 5px;
+  border-radius: var(--r-md); border: 1px solid var(--line);
+  background: var(--surface-2); font-size: 14px; text-align: left;
+}
+.pick-team:hover { border-color: var(--accent); }
+.pick-team.now { border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+.pick-team .tag { font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: .06em; }
+.pick-team.now .tag { color: var(--accent-text); }
+
+/* ============================================================
+   TAB BAR — bottom, thumb-reachable
+   ============================================================ */
+.tabs {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.tab {
+  padding: 8px 2px 9px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: .05em; text-transform: uppercase;
+  color: var(--ink-3);
+  border-top: 2px solid transparent;
+  margin-top: -1px;
+  transition: color .12s, border-color .12s;
+}
+.tab .tic { font-size: 16px; line-height: 1; }
+.tab[aria-selected="true"] { color: var(--ink); border-top-color: var(--accent); }
+
+.foot { color: var(--ink-3); font-size: 11.5px; line-height: 1.5; padding: 4px 0 20px; }
+.foot code { font-family: var(--mono); font-size: 11px; }
+</style>
+
+<div class="app">
+
+  <!-- ============ STATUS BAR ============ -->
+  <header class="status" id="status" data-mine="0">
+    <div class="clock">
+      <div class="clock-n" id="clockN">—</div>
+      <div class="clock-lab" id="clockL"><b>picks</b>until you</div>
+    </div>
+    <div class="status-mid">
+      <div class="status-line1">
+        <span class="rp" id="rp">—</span>
+        <span class="onclock" id="onclock">Load your rankings to start</span>
+      </div>
+      <div class="status-line2" id="alerts"></div>
+    </div>
+    <div class="status-act">
+      <button class="sbtn" id="simBtn" hidden title="Auto-pick the other teams up to your turn">Sim</button>
+      <button class="sbtn" id="undoBtn" disabled title="Undo the last pick">Undo</button>
+    </div>
+  </header>
+
+  <!-- ============ PANES ============ -->
+  <main class="main">
+
+    <!-- BOARD -->
+    <section class="pane-split on" id="pane-board">
+      <div class="col">
+        <div class="toolbar">
+          <div class="searchrow">
+            <input class="search" id="search" type="search" placeholder="Search a player to draft them…"
+                   autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">
+            <select class="sortsel" id="sort" aria-label="Sort board by">
+              <option value="rank">My rank</option>
+              <option value="adp">Goes soonest (ADP)</option>
+              <option value="value">My rank vs ADP</option>
+              <option value="surv">Least likely to last</option>
+              <option value="vorp">Value over replacement</option>
+            </select>
+          </div>
+          <div class="srcrow" id="srcrow" hidden></div>
+          <div class="filters" id="filters"></div>
+        </div>
+        <div id="verdict"></div>
+        <div class="list" id="board"></div>
+      </div>
+      <aside class="col col-side">
+        <div class="wrap-wide" id="side"></div>
+      </aside>
+    </section>
+
+    <!-- MY TEAM -->
+    <section class="pane" id="pane-team"><div class="wrap" id="teamView"></div></section>
+
+    <!-- LEAGUE -->
+    <section class="pane" id="pane-league"><div class="wrap-wide" id="leagueView"></div></section>
+
+    <!-- LOG -->
+    <section class="pane" id="pane-log"><div class="wrap" id="logView"></div></section>
+
+    <!-- SETUP -->
+    <section class="pane" id="pane-setup"><div class="wrap" id="setupView"></div></section>
+  </main>
+
+  <!-- ============ TABS ============ -->
+  <nav class="tabs" id="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="board"  aria-selected="true"><span class="tic">▤</span>Board</button>
+    <button class="tab" role="tab" data-tab="team"   aria-selected="false"><span class="tic">★</span>My Team</button>
+    <button class="tab" role="tab" data-tab="league" aria-selected="false"><span class="tic">▦</span>League</button>
+    <button class="tab" role="tab" data-tab="log"    aria-selected="false"><span class="tic">≡</span>Log</button>
+    <button class="tab" role="tab" data-tab="setup"  aria-selected="false"><span class="tic">⚙</span>Setup</button>
+  </nav>
+</div>
+
+<div class="scrim" id="scrim"><div class="sheet" id="sheet"></div></div>
+
+<script>
+"use strict";
+/* ================================================================
+   DRAFT ROOM — an offline draft companion.
+   Everything lives in this one file: no network, no server.
+   ================================================================ */
+
+const POS = ["QB","RB","WR","TE","K","DST"];
+const SKILL = ["QB","RB","WR","TE"];
+const KEY = "draftroom.v1";
+
+/* ---------------- storage (must survive a hostile localStorage) ---------------- */
+function save() {
+  // S.players is derived from S.sources, and view() decorates it with
+  // per-render fields. Storing it would double the payload and stale it.
+  try {
+    localStorage.setItem(KEY, JSON.stringify({ ...S, players: undefined }));
+  } catch (e) { /* private mode, quota, blocked */ }
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return null;
+}
+
+/* ---------------- state ---------------- */
+const defaults = () => ({
+  cfg: {
+    teams: 12, rounds: 16, mySlot: 5, trr: false, vol: 0.20,
+    awake: true, rehearse: false,
+    // Off by default: a file's own points column already reflects SOME
+    // scoring, and quietly substituting a different one would be worse than
+    // leaving it alone. Switch it on once you've entered your league's rules.
+    scoring: { on: false, ppr: 1, passTd: 4, passYd: 25, intp: -2,
+               rushYd: 10, rushTd: 6, recYd: 10, recTd: 6 },
+    slots: { QB:1, RB:2, WR:3, TE:1, FLEX:1, K:1, DST:1, BN:6 },
+    names: [],
+  },
+  sources: [],        // [{ id, name, players }] - every ranking set you've loaded
+  activeSource: null, // a source id, or CONSENSUS
+  players: [],        // derived: the active set. Never saved; rebuilt on load.
+  picks: [],          // { pid, team, overall } - pid is a stable cross-source key
+  queue: [],          // pids
+  notes: [],          // { pid, pol, source, snippet } - what the articles say
+  offBoard: [],       // players the room drafted that your file has never heard of
+  status: {},         // pid -> injury or suspension code, kept off the ranking sets
+  isDemo: true,
+  theme: null,
+  ui: { tab: "board", filter: "ALL", sort: "rank", q: "", openNotes: [] },
+});
+
+let S = load() || defaults();
+// forward-compat: fill in anything a older save is missing
+S = Object.assign(defaults(), S);
+S.cfg = Object.assign(defaults().cfg, S.cfg);
+S.ui  = Object.assign(defaults().ui, S.ui);
+
+/* ---------------- keep the screen on ----------------
+   Three hours at a table with a tablet that sleeps every minute is the
+   difference between a tool and a nuisance. The lock is dropped whenever the
+   page is hidden, so it has to be taken again on the way back. */
+let wakeLock = null;
+async function keepAwake(want) {
+  try {
+    if (want && S.cfg.awake && "wakeLock" in navigator && document.visibilityState === "visible") {
+      if (wakeLock) return;
+      wakeLock = await navigator.wakeLock.request("screen");
+      wakeLock.addEventListener("release", () => { wakeLock = null; });
+    } else if (!want && wakeLock) {
+      await wakeLock.release();
+      wakeLock = null;
+    }
+  } catch (e) { wakeLock = null; }   // unsupported, denied, or not visible
+}
+const wakeSupported = () => "wakeLock" in navigator;
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") keepAwake(true);
+});
+
+/* ---------------- theme ---------------- */
+function applyTheme() {
+  if (S.theme) document.documentElement.setAttribute("data-theme", S.theme);
+  else document.documentElement.removeAttribute("data-theme");
+}
+// A draft room is dim and the tablet is on battery: dark is the sensible
+// default, but any explicit choice wins and persists.
+if (S.theme === null && load() === null) S.theme = "dark";
+applyTheme();
+
+/* ================================================================
+   CSV — forgiving by design. Real exports have quoted commas,
+   BOMs, blank trailing rows, and "RB4" in the position column.
+   ================================================================ */
+function parseCSV(text) {
+  text = text.replace(/^﻿/, "").replace(/\r\n?/g, "\n");
+  const rows = []; let row = [], cell = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"') { if (text[i+1] === '"') { cell += '"'; i++; } else q = false; }
+      else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ",") { row.push(cell); cell = ""; }
+    else if (c === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
+    else cell += c;
+  }
+  row.push(cell); rows.push(row);
+  return rows.filter(r => r.some(v => String(v).trim() !== ""));
+}
+
+const HEADER_HINTS = {
+  name: ["player name","playername","player","name","full name"],
+  pos:  ["pos","position"],
+  team: ["team","tm","nfl team"],
+  rank: ["rk","rank","overall","ovr","#","ecr","overall rank"],
+  tier: ["tier","tiers"],
+  adp:  ["adp","avg","average","avg pick","adp ppr","consensus adp"],
+  bye:  ["bye","bye week","byeweek"],
+  status: ["injury","injury status","status","inj","designation","game status"],
+  proj: ["pts","proj","fpts","points","projected points","proj pts","fantasy pts","fantasy points"],
+};
+
+// Real NFL abbreviations, so a name suffix ("Mahomes II") is never mistaken
+// for a team when a file has no team column. Aliases fold the variants
+// different sites use for the same club.
+const TEAM_ALIAS = {
+  JAC:"JAX", WSH:"WAS", WFT:"WAS", LA:"LAR", STL:"LAR", SD:"LAC", SDG:"LAC",
+  OAK:"LV", LVR:"LV", ARZ:"ARI", BLT:"BAL", CLV:"CLE", HST:"HOU", TAM:"TB",
+  NWE:"NE", NOR:"NO", SFO:"SF", GNB:"GB", KAN:"KC", TEN:"TEN", NYG:"NYG",
+};
+const NFL_TEAMS = new Set(("ARI ATL BAL BUF CAR CHI CIN CLE DAL DEN DET GB HOU IND JAX KC LAC LAR "
+  + "LV MIA MIN NE NO NYG NYJ PHI PIT SEA SF TB TEN WAS").split(" "));
+const normTeam = t => {
+  const u = String(t).toUpperCase().replace(/[^A-Z]/g, "");
+  return TEAM_ALIAS[u] || u;
+};
+
+function guessMap(header) {
+  const norm = header.map(h => String(h).trim().toLowerCase().replace(/[._]/g," ").replace(/\s+/g," "));
+  const map = {};
+  for (const [field, hints] of Object.entries(HEADER_HINTS)) {
+    let best = -1, bestScore = 0;
+    norm.forEach((h, i) => {
+      if (!h) return;
+      let sc = 0;
+      if (hints.includes(h)) sc = 3;
+      else if (hints.some(x => h === x + "s")) sc = 3;
+      else if (hints.some(x => h.startsWith(x))) sc = 2;
+      else if (hints.some(x => h.includes(x))) sc = 1;
+      // never let "adp" steal the rank slot, or "bye week" steal "team"
+      if (field === "rank" && /adp|avg/.test(h)) sc = 0;
+      if (field === "team" && /bye/.test(h)) sc = 0;
+      // "(Stats)" columns are last season's actuals, never this season's projection
+      if (h.includes("stats")) sc = 0;
+      if (sc > bestScore) { bestScore = sc; best = i; }
+    });
+    map[field] = bestScore > 0 ? best : -1;
+  }
+  return map;
+}
+
+/* A player's identity has to survive being spelled differently in two files:
+   "Travis Etienne Jr." and "Travis Etienne" are one player, and picks logged
+   under one ranking set must still read as drafted after switching to another.
+   Team defenses are keyed on the club, since their *names* vary the most
+   ("Houston Texans" / "Texans" / "Houston D/ST"). */
+const NAME_SUFFIX = /\s+(jr|sr|ii|iii|iv|v)$/;
+function playerKey(name, pos, team) {
+  if (pos === "DST") return "dst|" + normTeam(team);
+  let n = String(name).toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9 ]/g, " ")
+    .replace(/\s+/g, " ").trim();
+  let prev;
+  do { prev = n; n = n.replace(NAME_SUFFIX, "").trim(); } while (n !== prev);
+  return n + "|" + pos;
+}
+
+/* The raw stat columns an export carries alongside its points total. With
+   these, the points can be recomputed under YOUR league's rules instead of
+   whatever the site assumed - which for a 6-point passing league is a fifty
+   to seventy point swing on every starting quarterback. */
+const STAT_HINTS = {
+  passYds: ["pass yds", "passing yards", "pass yards", "py"],
+  passTds: ["pass td", "passing td", "pass tds", "ptd"],
+  ints:    ["int", "interceptions", "ints"],
+  rushYds: ["rush yds", "rushing yards", "rush yards"],
+  rushTds: ["rush td", "rushing td", "rush tds"],
+  recs:    ["rec", "receptions", "catches"],
+  recYds:  ["rec yds", "receiving yards", "rec yards"],
+  recTds:  ["rec td", "receiving td", "rec tds"],
+};
+
+function guessStats(header) {
+  const norm = header.map(h => String(h).trim().toLowerCase()
+    .replace(/[._]/g, " ").replace(/\s+/g, " "));
+  const map = {};
+  for (const [field, hints] of Object.entries(STAT_HINTS)) {
+    let best = -1, bestScore = 0;
+    norm.forEach((h, i) => {
+      if (!h) return;
+      // last season's actuals are not this season's projection
+      if (h.includes("stats")) return;
+      let sc = 0;
+      if (hints.includes(h)) sc = 3;
+      else if (hints.some(x => h.startsWith(x + " "))) sc = 2;
+      else if (hints.some(x => h.includes(x))) sc = 1;
+      if (sc > bestScore) { bestScore = sc; best = i; }
+    });
+    map[field] = bestScore >= 2 ? best : -1;   // a loose substring is not enough
+  }
+  return map;
+}
+
+const cleanPos = v => {
+  const s = String(v).toUpperCase().replace(/[^A-Z]/g, "");
+  if (s.startsWith("DST") || s.startsWith("DEF") || s === "D") return "DST";
+  if (s.startsWith("PK") || s === "K") return "K";
+  return POS.find(p => s.startsWith(p)) || s.slice(0,3) || "?";
+};
+const num = v => { const n = parseFloat(String(v).replace(/[^0-9.\-]/g, "")); return isFinite(n) ? n : null; };
+
+function buildPlayers(rows, map, statMap) {
+  const body = rows.slice(1);
+  const out = [];
+  const hasAdpCol = map.adp >= 0;
+  const sm = statMap || guessStats(rows[0]);
+  const statFields = Object.keys(STAT_HINTS).filter(k => sm[k] >= 0);
+  body.forEach((r, i) => {
+    const get = f => map[f] >= 0 && map[f] < r.length ? String(r[map[f]]).trim() : "";
+    let name = get("name");
+    if (!name) return;
+    // Some exports append the team to the name: "Ja'Marr Chase CIN". Only
+    // strip a trailing token that is actually an NFL club — otherwise
+    // "Patrick Mahomes II" loses its suffix and gains a team called "II".
+    let team = get("team");
+    if (!team) {
+      const m = name.match(/\s+\(?([A-Za-z]{2,3})\)?$/);
+      if (m && NFL_TEAMS.has(normTeam(m[1]))) { team = m[1]; name = name.slice(0, m.index).trim(); }
+    }
+    // Some exports hang the designation off the name: "Player Name (IR)"
+    let nameStatus = null;
+    const tag = name.match(/[\s(\[-]+(Q|D|O|IR|PUP|SUS|NFI)[\)\]]?\s*$/i);
+    if (tag) { nameStatus = readStatus(tag[1]); name = name.slice(0, tag.index).trim(); }
+    const pos = cleanPos(get("pos"));
+    // A blank or zero ADP means "no ADP data" (RotoBaller writes 0), not
+    // "goes first overall". Keeping the 0 would put undrafted players at the
+    // top of an ADP sort and tell the survival model they are already gone.
+    let adp = num(get("adp"));
+    if (adp != null && adp <= 0) adp = null;
+    let stats = null;
+    if (statFields.length >= 4) {
+      stats = {};
+      let any = false;
+      statFields.forEach(k => {
+        const v = num(String(r[sm[k]] ?? "").trim());
+        stats[k] = v == null ? 0 : v;
+        if (v) any = true;
+      });
+      if (!any) stats = null;          // a row with no numbers is not a projection
+    }
+    const proj = num(get("proj"));
+    out.push({
+      name,
+      team: normTeam(team) || "—",
+      pos,
+      rank: num(get("rank")) ?? (i + 1),
+      tier: num(get("tier")),
+      adp,
+      bye:  num(get("bye")),
+      proj,
+      projFile: proj,                   // what the file said, kept so this is reversible
+      stats,
+      statsChecked: true,               // parsed by a build that looks for stat columns
+      _status: readStatus(get("status")) || nameStatus,
+    });
+  });
+  out.sort((a, b) => a.rank - b.rank);
+  out.forEach((p, i) => { p.rank = i + 1; });
+  // No ADP column at all -> rank is a fair stand-in for the whole list.
+  // A column that exists but is blank for one player is a real gap: leave it
+  // null rather than inventing a number the file never claimed.
+  // With no ADP column the rank stands in for it, but that is your own list
+  // talking - not the market - so it can't be evidence of disagreement.
+  out.forEach(p => { p.adpReal = hasAdpCol; });
+  if (!hasAdpCol) out.forEach(p => { p.adp = p.rank; });
+  assignKeys(out);
+  if (out.every(p => p.tier == null) || !tiersLookPositional(out)) autoTier(out);
+  posRanks(out);
+  return out;
+}
+
+function assignKeys(list) {
+  const seen = new Map();
+  list.forEach(p => {
+    const base = playerKey(p.name, p.pos, p.team);
+    const n = (seen.get(base) || 0) + 1;
+    seen.set(base, n);
+    p.id = n === 1 ? base : base + "#" + n;   // same name+pos twice in one file
+  });
+}
+
+/* An export's tier column may be overall ("tier 6 of the whole board") or
+   positional ("the 6th tier of RBs"). Every tier reading here is per position,
+   so an overall column has to be re-derived or every position reads as a cliff. */
+function tiersLookPositional(list) {
+  const byTier = {};
+  list.forEach(p => {
+    if (p.tier == null) return;
+    (byTier[p.tier] = byTier[p.tier] || new Set()).add(p.pos);
+  });
+  const groups = Object.values(byTier);
+  if (groups.length < 2) return false;
+  const mixed = groups.filter(g => g.size > 1).length;
+  return mixed / groups.length < 0.34;
+}
+
+/* Tiers from ADP gaps, cut at the biggest drop-offs.
+
+   The gaps have to be measured on a LOG scale. ADP spreads out as it grows -
+   consecutive WRs are 1-3 picks apart at the top of the board and 30-90 apart
+   in the last rounds - so ranking raw gaps puts every cut in the dead zone and
+   leaves the top, where tiers actually decide picks, as one undivided blob
+   (measured: 65 WRs in tier 1 on a real 400-player export). A ratio treats
+   "4.5 to 6.1" as the real cliff it is and "250 to 258" as the noise it is.
+
+   Aim for tiers of ~5, then split any tier that still runs long, so no tier
+   is too big to be a decision. */
+function autoTier(list) {
+  const MAX_TIER = 8;
+  // Shift before taking the log: a raw ratio is savage at the very top
+  // (ADP 1.2 -> 2.0 is a 51% jump) and would give the first two picks a tier
+  // each. Swept against a real 400-player board, 8 is where singleton tiers
+  // disappear without the top of each position collapsing into one blob.
+  const SHIFT = 8;
+  POS.forEach(pos => {
+    const grp = list.filter(p => p.pos === pos).sort((a,b) => a.rank - b.rank);
+    if (grp.length < 3) { grp.forEach(p => p.tier = 1); return; }
+    const at = p => Math.max(1, p.adp != null ? p.adp : p.rank) + SHIFT;
+    const gaps = [];
+    for (let i = 1; i < grp.length; i++) gaps.push({ i, g: Math.log(at(grp[i])) - Math.log(at(grp[i-1])) });
+    const k = Math.max(2, Math.round(grp.length / 5));
+    const cuts = new Set(gaps.slice().sort((a,b) => b.g - a.g).slice(0, k - 1).map(x => x.i));
+    // Long runs with no meaningful gap still need breaking somewhere.
+    let run = 0;
+    for (let i = 0; i < grp.length; i++) {
+      run = cuts.has(i) ? 1 : run + 1;
+      if (run > MAX_TIER) { cuts.add(i); run = 1; }
+    }
+    let t = 1;
+    grp.forEach((p, i) => { if (cuts.has(i)) t++; p.tier = t; });
+  });
+}
+
+function posRanks(list) {
+  const c = {};
+  [...list].sort((a,b) => a.rank - b.rank).forEach(p => {
+    c[p.pos] = (c[p.pos] || 0) + 1;
+    p.pr = c[p.pos];              // your list's order within the position
+  });
+  // The market's order within the position, so "your RB14" can be set against
+  // "the room's RB9". Comparing overall rank to overall ADP instead would just
+  // measure how far down a list chooses to bury kickers and defenses.
+  const d = {};
+  [...list].filter(p => p.adp != null).sort((a,b) => a.adp - b.adp).forEach(p => {
+    d[p.pos] = (d[p.pos] || 0) + 1;
+    p.apr = d[p.pos];
+  });
+}
+
+/* ================================================================
+   RANKING SETS
+   Several lists can be loaded at once. Picks are keyed on the player,
+   not on a row in one file, so switching sets mid-draft keeps every
+   pick — and CONSENSUS averages the sets that are loaded.
+   ================================================================ */
+const CONSENSUS = "__consensus__";
+
+const sourceById = id => S.sources.find(x => x.id === id) || null;
+
+function seedStatus(players) {
+  players.forEach(p => {
+    if (p._status && !S.status[p.id]) S.status[p.id] = p._status;
+  });
+}
+
+function addSource(name, players) {
+  seedStatus(players);
+  const id = "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  S.sources.push({ id, name: name || `List ${S.sources.length + 1}`, players });
+  S.activeSource = id;
+  S.isDemo = false;
+  refreshActive();
+  return id;
+}
+
+function removeSource(id) {
+  S.sources = S.sources.filter(x => x.id !== id);
+  if (S.activeSource === id || !S.sources.length)
+    S.activeSource = S.sources.length ? (S.sources.length > 1 ? CONSENSUS : S.sources[0].id) : null;
+  refreshActive();
+}
+
+/* Average rank across every set a player appears in. A player missing from a
+   set isn't penalised for it - but coverage is reported, because "3rd overall
+   on the one list that has him" is a different claim than "3rd on all three". */
+function buildConsensus() {
+  const acc = new Map();
+  S.sources.forEach(src => {
+    src.players.forEach(p => {
+      let e = acc.get(p.id);
+      if (!e) { e = { ...p, ranks: [], adps: [], projs: [] }; acc.set(p.id, e); }
+      e.ranks.push(p.rank);
+      if (p.adp  != null) e.adps.push(p.adp);
+      if (p.proj != null) e.projs.push(p.proj);
+      if (p.adpReal) e.adpReal = true;
+      if (!e.bye  && p.bye)  e.bye  = p.bye;
+      if ((!e.team || e.team === "—") && p.team) e.team = p.team;
+    });
+  });
+  const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  const out = [...acc.values()].map(e => ({
+    ...e,
+    rank:   mean(e.ranks),
+    adp:    mean(e.adps),
+    proj:   e.projs.length ? Math.round(mean(e.projs)) : null,
+    spread: e.ranks.length > 1 ? Math.round(Math.max(...e.ranks) - Math.min(...e.ranks)) : null,
+    nIn:    e.ranks.length,
+    tier:   null,
+  }));
+  out.sort((a, b) => a.rank - b.rank);
+  out.forEach((p, i) => { p.rank = i + 1; });
+  autoTier(out);
+  posRanks(out);
+  return out;
+}
+
+/* Short enough to sit on one line at every column width - mixed one- and
+   two-line labels pushed the inputs to different heights and the row read as
+   broken. Grouped pass / rush / receive so the pairs land together. */
+const SCORING_FIELDS = [
+  ["ppr",     "Per catch",     "1 for full PPR, 0.5 for half, 0 for standard"],
+  ["intp",    "Interception",  "usually -2, sometimes -1"],
+  ["passTd",  "Pass TD",       "6 in a lot of leagues, 4 by default"],
+  ["passYd",  "Pass yds / pt", "25 by default — one point per 25 passing yards"],
+  ["rushTd",  "Rush TD",       "6 almost everywhere"],
+  ["rushYd",  "Rush yds / pt", "10 by default"],
+  ["recTd",   "Rec TD",        "6 almost everywhere"],
+  ["recYd",   "Rec yds / pt",  "10 by default"],
+];
+
+/* One tap instead of eight numeric fields on a touch keyboard. "Match this
+   file" is the diagnostic: if it reports no change, your export was built on
+   those rules. */
+const SCORING_PRESETS = [
+  { id: "espn", label: "My league (ESPN)", why: "6-point passing TDs, a point per 20 passing yards",
+    set: { ppr: 1, intp: -2, passTd: 6, passYd: 20, rushTd: 6, rushYd: 10, recTd: 6, recYd: 10 } },
+  { id: "file", label: "Match this file", why: "4-point passing TDs, a point per 25 passing yards",
+    set: { ppr: 1, intp: -2, passTd: 4, passYd: 25, rushTd: 6, rushYd: 10, recTd: 6, recYd: 10 } },
+];
+const presetMatches = pre =>
+  Object.keys(pre.set).every(k => Number(S.cfg.scoring[k]) === pre.set[k]);
+
+/* How far the current settings are from the file's own numbers. Saying
+   "reproduces the file exactly" tells you what the file assumed; listing what
+   moves tells you what your rules change. Both beat a worked example that
+   reads 388 -> 388. */
+function scoringDelta() {
+  const sc = { ...S.cfg.scoring, on: true };
+  let same = 0, moved = [];
+  S.sources.forEach(src => src.players.forEach(p => {
+    if (!p.stats || !usableStats(p) || p.projFile == null) return;
+    const v = Math.round(scoreFromStats(p.stats, sc));
+    if (Math.abs(v - p.projFile) <= 2) same++;
+    else moved.push({ name: p.name, pos: p.pos, rank: p.rank, from: p.projFile, to: v });
+  }));
+  // Ordered by where they sit on the board, not by how far they move: the
+  // biggest swings belong to backup quarterbacks nobody drafts, and the point
+  // of the example is to show you a player you would actually consider.
+  moved.sort((a, b) => a.rank - b.rank);
+  return { same, moved };
+}
+
+function scoreFromStats(st, sc) {
+  const per = (v, d) => (d ? v / d : 0);
+  return per(st.passYds, sc.passYd) + st.passTds * sc.passTd + st.ints * sc.intp
+       + per(st.rushYds, sc.rushYd) + st.rushTds * sc.rushTd
+       + st.recs * sc.ppr + per(st.recYds, sc.recYd) + st.recTds * sc.recTd;
+}
+
+const anyStats = () => S.sources.some(src => src.players.some(p => p.stats && usableStats(p)));
+
+/* Work out what scoring a list was built on by trying the handful of rules
+   sites actually use and seeing which one reproduces its own points column.
+   Two lists from the same site can be the same projections scored
+   differently - and averaging a full-PPR total with a half-PPR one produces a
+   number that is neither. */
+const PPR_TRIES = [1, 0.5, 0], PASSTD_TRIES = [4, 6], PASSYD_TRIES = [25, 20];
+function fitScoring(players) {
+  const usable = players.filter(p => p.stats && usableStats(p) && p.projFile != null);
+  if (usable.length < 10) return null;
+  let best = null;
+  PPR_TRIES.forEach(ppr => PASSTD_TRIES.forEach(passTd => PASSYD_TRIES.forEach(passYd => {
+    const rule = { ppr, passTd, passYd, intp: -2, rushYd: 10, rushTd: 6, recYd: 10, recTd: 6 };
+    let hit = 0;
+    usable.forEach(p => {
+      if (Math.abs(Math.round(scoreFromStats(p.stats, rule)) - p.projFile) <= 2) hit++;
+    });
+    if (!best || hit > best.hit) best = { ppr, passTd, passYd, hit, n: usable.length };
+  })));
+  // Only claim a format when it explains nearly the whole file.
+  return best && best.hit / best.n >= 0.9 ? best : null;
+}
+const pprName = v => v === 1 ? "full PPR" : v === 0.5 ? "half PPR" : v === 0 ? "standard" : v + " / catch";
+const describeFit = fit => fit
+  ? `${pprName(fit.ppr)} · ${fit.passTd}-pt pass TD · 1 pt / ${fit.passYd} pass yds`
+  : "scoring not recognised";
+
+/* Some rows carry a points total but blank yardage - the file projected them
+   without publishing the components. Rebuilding those from nothing would
+   invent a much smaller number, so they keep whatever the file said. */
+function usableStats(p) {
+  const st = p.stats;
+  if (!st) return false;
+  const yards = (st.passYds || 0) + (st.rushYds || 0) + (st.recYds || 0);
+  if (yards > 0) return true;
+  return !(p.projFile > 20);      // no yards at all, yet the file claims points
+}
+
+/* Rewrites projected points across every loaded list. Players with no stat
+   line - kickers and defences, mostly - keep the file's own number, because
+   zero would be a lie rather than a recalculation. */
+function applyScoring() {
+  const sc = S.cfg.scoring;
+  S.sources.forEach(src => src.players.forEach(p => {
+    if (p.projFile === undefined) p.projFile = p.proj;
+    p.proj = (sc.on && p.stats && usableStats(p)) ? Math.round(scoreFromStats(p.stats, sc))
+                                                  : p.projFile;
+  }));
+}
+
+/* Someone will eventually call a name your file does not contain - a deep
+   rookie, a handcuff outside the top 400. If that pick cannot be logged, the
+   pick count silently diverges from the real room and every clock reading,
+   survival figure and cost-of-waiting number after it is wrong. So it gets
+   logged as a player, just one that came from the room rather than a file.
+   These live outside the ranking sets so they survive switching between them. */
+function addOffBoard(name, pos, team) {
+  const p = {
+    id: "off:" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    name: (name || "").trim() || "Unnamed pick",
+    pos: POS.includes(pos) ? pos : "—",
+    team: normTeam(team || "") || "—",
+    rank: 99999, tier: null, adp: null, bye: null,
+    proj: null, projFile: null, stats: null, off: true,
+  };
+  S.offBoard.push(p);
+  return p;
+}
+const dropOffBoard = pid => { S.offBoard = S.offBoard.filter(p => p.id !== pid); };
+
+function refreshActive() {
+  applyScoring();
+  const extra = S.offBoard || [];
+  if (!S.sources.length) { S.players = extra.slice(); return; }
+  if (S.activeSource === CONSENSUS && S.sources.length > 1) {
+    S.players = buildConsensus().concat(extra); return;
+  }
+  const src = sourceById(S.activeSource) || S.sources[0];
+  S.activeSource = src.id;
+  S.players = src.players.concat(extra);
+}
+
+const activeSourceName = () =>
+  S.activeSource === CONSENSUS && S.sources.length > 1
+    ? `Consensus of ${S.sources.length}`
+    : (sourceById(S.activeSource)?.name || "—");
+
+/* ================================================================
+   ARTICLE PICKS
+   Paste any prose - a staff-picks piece, a bare list of names, your own
+   notes - and find the players in it. Matching runs against the board you
+   already loaded, so it needs no network and knows nothing about any
+   particular site's HTML.
+   ================================================================ */
+const POLARITY = {
+  target: { glyph: "▲", word: "Target", tone: "good" },
+  watch:  { glyph: "●", word: "Watch",  tone: "warn" },
+  avoid:  { glyph: "▼", word: "Avoid",  tone: "crit" },
+  hurt:   { glyph: "✚", word: "Injured", tone: "crit" },
+};
+
+/* Surnames that are also ordinary English words. A bare "Love", "Little" or
+   "Chase" in a sentence is far more often prose than a player, so these are
+   never matched on the surname alone - the full name still matches. */
+const COMMON_WORD_SURNAMES = new Set(("love little price gray hunter dell ward boston rice reed bell "
+  + "king chase cook young sanders waller bright brown smith jones hill moore allen west wright "
+  + "carter bates coleman johnson williams davis taylor watson james white green black long short "
+  + "st strong swift bush stroud pitts rush mason walker gordon parker foster hall").split(" "));
+
+/* Tokenise with case and position kept. Case is the whole defence against a
+   name that only exists by accident: "Don't chase Brown early" contains the
+   words "chase brown", which is exactly the player Chase Brown - but the verb
+   is lowercase, and a real mention never is. Offsets let the snippet come from
+   the original prose rather than a flattened copy. */
+function tokenize(text) {
+  const toks = [], re = /[A-Za-z0-9\u00C0-\u024F'\u2019]+/g;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    const raw = m[0];
+    toks.push({
+      w: raw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, ""),
+      cap: raw[0] !== raw[0].toLowerCase(),
+      at: m.index,
+    });
+  }
+  return toks.filter(t => t.w);
+}
+
+const bareName = p => {
+  let n = String(p.name).toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/['\u2019]/g, "")          // must vanish, exactly as in tokenize()
+    .replace(/[^a-z0-9]+/g, " ").trim();
+  let prev;
+  do { prev = n; n = n.replace(/\s+(jr|sr|ii|iii|iv|v)$/, "").trim(); } while (n !== prev);
+  return n;
+};
+
+/* Returns two buckets. `sure` matched every word of a full name, each of them
+   capitalised, and is pre-selected. `maybe` matched a surname alone - "Brown"
+   belongs to three players on this board - and waits for you to confirm. */
+function scanText(text) {
+  const toks = tokenize(text);
+  if (!toks.length || !S.players.length) return { sure: [], maybe: [] };
+  const pool = S.players;
+
+  const snippet = at => {
+    const from = Math.max(0, at - 40), to = Math.min(text.length, at + 150);
+    let cut = text.slice(from, to).replace(/\s+/g, " ").trim();
+    if (from > 0) cut = "…" + cut.replace(/^\S+\s/, "");
+    if (to < text.length) cut = cut.replace(/\s\S+$/, "") + "…";
+    return cut;
+  };
+
+  // word -> every index it occurs at, so lookup is not a scan per player
+  const idx = new Map();
+  toks.forEach((t, i) => {
+    if (!idx.has(t.w)) idx.set(t.w, []);
+    idx.get(t.w).push(i);
+  });
+
+  const bySurname = new Map();
+  pool.forEach(p => {
+    const parts = bareName(p).split(" ");
+    if (parts.length < 2) return;
+    const sn = parts[parts.length - 1];
+    if (!bySurname.has(sn)) bySurname.set(sn, []);
+    bySurname.get(sn).push(p);
+  });
+
+  const seen = new Set(), sure = [], maybe = [];
+
+  pool.forEach(p => {
+    const words = bareName(p).split(" ");
+    if (words.length < 2 || seen.has(p.id)) return;
+    for (const i of (idx.get(words[0]) || [])) {
+      if (i + words.length > toks.length) continue;
+      let hit = true;
+      for (let k = 0; k < words.length; k++) {
+        const t = toks[i + k];
+        if (t.w !== words[k] || !t.cap) { hit = false; break; }
+      }
+      if (!hit) continue;
+      seen.add(p.id);
+      sure.push({ pid: p.id, name: p.name, pos: p.pos, team: p.team, snippet: snippet(toks[i].at) });
+      break;
+    }
+  });
+
+  bySurname.forEach((players, sn) => {
+    if (players.length !== 1) return;              // more than one player answers to it
+    if (COMMON_WORD_SURNAMES.has(sn)) return;      // ordinary English word
+    if (sn.length < 4) return;
+    const p = players[0];
+    if (seen.has(p.id)) return;
+    const at = (idx.get(sn) || []).find(i => toks[i].cap);
+    if (at == null) return;
+    seen.add(p.id);
+    maybe.push({ pid: p.id, name: p.name, pos: p.pos, team: p.team, snippet: snippet(toks[at].at) });
+  });
+
+  const rk = id => (pool.find(x => x.id === id) || {}).rank ?? 9999;
+  sure.sort((a,b) => rk(a.pid) - rk(b.pid));
+  maybe.sort((a,b) => rk(a.pid) - rk(b.pid));
+  return { sure, maybe };
+}
+
+/* Injury and suspension flags. Kept against the player key rather than inside
+   a ranking set, so they survive switching lists and ride along in a backup -
+   and so a re-import never silently wipes them. */
+const STATUS = {
+  Q:   { word: "Questionable", tone: "warn" },
+  D:   { word: "Doubtful",     tone: "warn" },
+  O:   { word: "Out",          tone: "crit" },
+  IR:  { word: "Injured reserve", tone: "crit" },
+  PUP: { word: "PUP list",     tone: "crit" },
+  SUS: { word: "Suspended",    tone: "crit" },
+};
+const STATUS_CODES = Object.keys(STATUS);
+const statusOf = pid => S.status[pid] || null;
+function setStatus(pid, code) {
+  if (code && STATUS[code]) S.status[pid] = code;
+  else delete S.status[pid];
+}
+
+/* What a file might call it, and what a person might have typed. */
+function readStatus(raw) {
+  const t = String(raw || "").trim().toLowerCase();
+  if (!t || /^(active|healthy|ok|none|-)$/.test(t)) return null;
+  if (/susp/.test(t)) return "SUS";
+  if (/\bpup\b|physically unable/.test(t)) return "PUP";
+  if (/injured reserve|\bi\.?r\.?\b/.test(t)) return "IR";
+  if (/doubt/.test(t)) return "D";
+  if (/quest/.test(t)) return "Q";
+  if (/\bout\b|\bo\b/.test(t)) return "O";
+  if (/\bd\b/.test(t)) return "D";
+  if (/\bq\b/.test(t)) return "Q";
+  return null;
+}
+
+const notesFor = pid => S.notes.filter(n => n.pid === pid);
+
+/* A note keyed to a player who isn't in the list you're currently using still
+   has to read as a name rather than "ja marr chase|WR". */
+const prettyKey = pid => String(pid).split("|")[0]
+  .replace(/\b[a-z]/g, c => c.toUpperCase()) || "Unknown";
+
+/* Which NFL clubs you already own, so the board can point out a quarterback's
+   receiver or the back-up behind your starting running back. Rebuilt once per
+   render rather than per row. */
+let MY_CLUBS = new Map();
+function refreshClubs() {
+  MY_CLUBS = new Map();
+  rosterOf(S.cfg.mySlot - 1).forEach(p => {
+    if (!p.team || p.team === "—") return;
+    if (!MY_CLUBS.has(p.team)) MY_CLUBS.set(p.team, []);
+    MY_CLUBS.get(p.team).push(p);
+  });
+}
+const CATCHERS = ["WR", "TE"];
+function clubLink(p) {
+  const mates = MY_CLUBS.get(p.team);
+  if (!mates) return null;
+  for (const m of mates) {
+    if (m.id === p.id) continue;
+    if (m.pos === "QB" && CATCHERS.includes(p.pos)) return { kind: "stack", with: m };
+    if (CATCHERS.includes(m.pos) && p.pos === "QB") return { kind: "stack", with: m };
+    if (m.pos === "RB" && p.pos === "RB") return { kind: "cuff", with: m };
+  }
+  return null;
+}
+const lastName = n => String(n).replace(/\s+(Jr\.?|Sr\.?|II|III|IV|V)$/i, "").split(/\s+/).pop();
+
+/* Two articles disagreeing about a player is worth seeing, so tally each
+   verdict rather than collapsing to one. */
+function noteTally(pid) {
+  const t = {};
+  notesFor(pid).forEach(n => { t[n.pol] = (t[n.pol] || 0) + 1; });
+  return t;
+}
+const noteSources = () => {
+  const m = new Map();
+  S.notes.forEach(n => {
+    const k = JSON.stringify([n.source, n.pol]);
+    if (!m.has(k)) m.set(k, { source: n.source, pol: n.pol, n: 0 });
+    m.get(k).n++;
+  });
+  return [...m.values()];
+};
+
+/* ================================================================
+   SNAKE MATH
+   ================================================================ */
+const totalPicks = () => S.cfg.teams * S.cfg.rounds;
+const currentPick = () => S.picks.length + 1;
+
+function teamOnClock(overall) {
+  const T = S.cfg.teams;
+  const r = Math.ceil(overall / T);
+  const i = overall - (r - 1) * T;          // 1..T within the round
+  let forward;
+  if (S.cfg.trr) forward = r === 1 ? true : (r === 2 ? false : r % 2 === 0);
+  else forward = r % 2 === 1;
+  return forward ? i - 1 : T - i;           // 0-indexed team
+}
+const roundOf = o => Math.ceil(o / S.cfg.teams);
+const slotInRound = o => o - (roundOf(o) - 1) * S.cfg.teams;
+
+function myNextPick(from) {
+  const me = S.cfg.mySlot - 1, max = totalPicks();
+  for (let o = from; o <= max; o++) if (teamOnClock(o) === me) return o;
+  return null;
+}
+function picksUntilMine() {
+  const nxt = myNextPick(currentPick());
+  return nxt == null ? null : nxt - currentPick();
+}
+
+/* ---------------- survival odds ----------------
+   P(still there at my next turn | still there now).
+   ADP is treated as the mean of a normal draft-position distribution
+   whose spread grows with ADP — early picks are predictable, late
+   ones are noise. Tune the spread with the volatility slider. */
+function erf(x) {
+  const s = Math.sign(x); x = Math.abs(x);
+  const a1=.254829592, a2=-.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=.3275911;
+  const t = 1/(1+p*x);
+  return s * (1 - ((((a5*t+a4)*t+a3)*t+a2)*t+a1)*t*Math.exp(-x*x));
+}
+const ncdf = z => .5 * (1 + erf(z / Math.SQRT2));
+
+function survival(p, from, to) {
+  if (p.adp == null || to == null || to <= from) return null;
+  const sd = Math.max(3, 2 + S.cfg.vol * p.adp);
+  const F = n => ncdf((n - p.adp) / sd);       // P(gone by pick n)
+  const now = 1 - F(from - 1);
+  const then = 1 - F(to - 1);
+  if (now < 0.002) return 0;
+  return Math.max(0, Math.min(1, then / now));
+}
+
+/* ---------------- replacement level / VORP ---------------- */
+function replacementPoints(avail) {
+  const { teams, slots } = S.cfg;
+  const flexShare = { RB: .45, WR: .45, TE: .10 };
+  const out = {};
+  POS.forEach(pos => {
+    const starters = (slots[pos] || 0) + (flexShare[pos] || 0) * (slots.FLEX || 0);
+    const depth = Math.max(1, Math.round(starters * teams));
+    const grp = avail.filter(p => p.pos === pos && p.proj != null).sort((a,b) => b.proj - a.proj);
+    out[pos] = grp.length ? (grp[Math.min(depth, grp.length) - 1].proj) : null;
+  });
+  return out;
+}
+const hasProj = () => S.players.some(p => p.proj != null);
+
+/* ================================================================
+   COST OF WAITING
+
+   The question a snake pick actually poses is not "who is best?" but "who
+   will not be here next time?". Spending a pick on someone who would have
+   survived the round trip wastes it.
+
+   For each position: the value on the board now, against the value you can
+   expect to still be there at your next turn. The second is a proper
+   expectation, not the best survivor - walk the position in value order and
+   accumulate P(this one is the best still standing) = P(he lasts) x
+   P(nobody above him lasted).
+   ================================================================ */
+function valueOf(p) {
+  if (p.proj != null) return p.proj;
+  return null;
+}
+
+function expectedBestAt(pos, avail, from, to) {
+  const list = avail
+    .filter(p => p.pos === pos && valueOf(p) != null && p.adp != null)
+    .sort((a, b) => valueOf(b) - valueOf(a));
+  if (!list.length) return null;
+  let none = 1, ev = 0, any = 0;
+  for (const p of list) {
+    const sv = survival(p, from, to);
+    if (sv == null) continue;
+    const here = none * sv;
+    ev += here * valueOf(p);
+    any += here;
+    none *= (1 - sv);
+    if (none < 0.002) break;
+  }
+  return any > 0.02 ? ev / any : null;
+}
+
+/* One row per position you still have to start. `drop` is what the round trip
+   costs you there. */
+function waitCosts() {
+  const V = view();
+  if (V.nxt == null || !hasProj()) return [];
+  const me = S.cfg.mySlot - 1;
+  const need = new Set(openNeeds(me).flatMap(l => l === "FLEX" ? ["RB", "WR", "TE"] : [l]));
+  const out = [];
+  SKILL.forEach(pos => {
+    const here = V.avail.filter(p => p.pos === pos && valueOf(p) != null)
+      .sort((a, b) => valueOf(b) - valueOf(a))[0];
+    if (!here) return;
+    const later = expectedBestAt(pos, V.avail, V.cur, V.nxt);
+    if (later == null) return;
+    out.push({
+      pos,
+      best: here,
+      now: valueOf(here),
+      later,
+      drop: Math.round(valueOf(here) - later),
+      needed: need.has(pos),
+    });
+  });
+  out.sort((a, b) => b.drop - a.drop);
+  return out;
+}
+
+/* ================================================================
+   DERIVED VIEW OF THE DRAFT
+   ================================================================ */
+function drafted() { return new Set(S.picks.map(p => p.pid)); }
+
+function view() {
+  const taken = drafted();
+  const avail = S.players.filter(p => !taken.has(p.id));
+  const cur = currentPick();
+  const onClock = teamOnClock(cur) === S.cfg.mySlot - 1;
+  const nxt = onClock ? myNextPick(cur + 1) : myNextPick(cur);
+  const repl = hasProj() ? replacementPoints(avail) : null;
+
+  avail.forEach(p => {
+    p._surv = survival(p, cur, nxt);
+    /* RK is your source's opinion; ADP is what the rest of the world is doing.
+       The gap between them is the only number here that isn't already implied
+       by something else on the row - and it's the one that changes a pick.
+       Positive: the market lets him go later than you rank him, so you can
+       wait. Negative: the room takes him well before your board says he's
+       worth it, so he's not realistically yours.
+       (The old measure, adp - currentPick, was just ADP shifted by a constant
+       - identical ordering to the ADP sort, and no information of its own.) */
+    /* Skill positions only. Nobody drafts differently because their list has
+       a kicker 2 spots off the market's, and with only ~28 K and 32 DST on the
+       board those tiny denominators dominate a ratio and bury the real reads. */
+    p._edge = (p.adpReal && p.adp != null && p.apr != null && SKILL.includes(p.pos)
+               && Math.min(p.rank, p.adp) <= totalPicks())
+      ? p.apr - p.pr : null;
+    /* Shown as plain spots because that's what's readable, but ORDERED by the
+       ratio: 26 spots between WR50 and WR76 is noise, 26 spots between WR6 and
+       WR32 decides your draft. Sorting the raw difference just floats the deep
+       end, where neither list means much. */
+    p._edgeScore = p._edge == null ? null : Math.log(p.apr) - Math.log(p.pr);
+    p._vorp = (repl && p.proj != null && repl[p.pos] != null) ? Math.round(p.proj - repl[p.pos]) : null;
+  });
+
+  // best remaining tier per position + how many are left in it
+  const tiers = {};
+  POS.forEach(pos => {
+    const grp = avail.filter(p => p.pos === pos).sort((a,b) => a.rank - b.rank);
+    if (!grp.length) { tiers[pos] = null; return; }
+    const t = grp[0].tier;
+    tiers[pos] = { tier: t, left: grp.filter(p => p.tier === t).length, total: grp.length };
+  });
+
+  return { avail, taken, cur, nxt, tiers, repl };
+}
+
+function rosterOf(teamIdx) {
+  return S.picks.filter(p => p.team === teamIdx)
+                .map(p => S.players.find(x => x.id === p.pid))
+                .filter(Boolean);
+}
+
+/* Greedy slotting: dedicated slots first, then FLEX takes the best
+   leftover skill player, everything else is bench. */
+function fillSlots(list) {
+  const { slots } = S.cfg;
+  const pool = [...list].sort((a,b) => a.rank - b.rank);
+  const used = new Set();
+  const rows = [];
+  const take = pos => {
+    const p = pool.find(x => !used.has(x.id) && x.pos === pos);
+    if (p) used.add(p.id);
+    return p || null;
+  };
+  ["QB","RB","WR","TE"].forEach(pos => {
+    for (let i = 0; i < (slots[pos] || 0); i++) rows.push({ lab: pos, p: take(pos) });
+  });
+  for (let i = 0; i < (slots.FLEX || 0); i++) {
+    const p = pool.find(x => !used.has(x.id) && ["RB","WR","TE"].includes(x.pos));
+    if (p) used.add(p.id);
+    rows.push({ lab: "FLEX", p: p || null });
+  }
+  ["K","DST"].forEach(pos => {
+    for (let i = 0; i < (slots[pos] || 0); i++) rows.push({ lab: pos, p: take(pos) });
+  });
+  pool.filter(p => !used.has(p.id)).forEach(p => rows.push({ lab: "BN", p }));
+  return rows;
+}
+
+/* Everything below compares your team with the other eleven rather than with
+   an abstract par. Every team has made the same number of picks, so the
+   comparison is fair from the very first round and moves as the draft does. */
+const STARTERS = rows => rows.filter(r => r.lab !== "BN" && r.p);
+
+function teamPoints(teamIdx) {
+  const rows = STARTERS(fillSlots(rosterOf(teamIdx)));
+  const byPos = {}; let total = 0;
+  rows.forEach(r => {
+    const v = r.p.proj;
+    if (v == null) return;
+    total += v;
+    // a FLEX counts toward the position the player actually plays
+    byPos[r.p.pos] = (byPos[r.p.pos] || 0) + v;
+  });
+  return { total, byPos, starters: rows.length };
+}
+
+function leagueAverages() {
+  const per = [];
+  for (let i = 0; i < S.cfg.teams; i++) per.push(teamPoints(i));
+  const avg = { total: 0, byPos: {} };
+  per.forEach(t => {
+    avg.total += t.total;
+    POS.forEach(pos => { avg.byPos[pos] = (avg.byPos[pos] || 0) + (t.byPos[pos] || 0); });
+  });
+  avg.total /= S.cfg.teams;
+  POS.forEach(pos => { avg.byPos[pos] /= S.cfg.teams; });
+  return { avg, per };
+}
+
+/* Picks of value: a player whose ADP was 20 taken at pick 30 is ten picks of
+   value. Sums only over players who had an ADP to begin with. */
+function valueCaptured(teamIdx) {
+  let spots = 0, counted = 0;
+  S.picks.filter(pk => pk.team === teamIdx).forEach(pk => {
+    const p = S.players.find(x => x.id === pk.pid);
+    if (!p || p.adp == null) return;
+    spots += p.adp - pk.overall;
+    counted++;
+  });
+  return { spots: Math.round(spots), counted };
+}
+
+/* Which weeks would leave you starting replacements, and how badly. */
+function byeLoad(teamIdx) {
+  const weeks = {};
+  STARTERS(fillSlots(rosterOf(teamIdx))).forEach(r => {
+    if (!r.p.bye) return;
+    (weeks[r.p.bye] = weeks[r.p.bye] || []).push(r.p);
+  });
+  let worst = null;
+  Object.entries(weeks).forEach(([w, list]) => {
+    if (!worst || list.length > worst.n) worst = { week: +w, n: list.length };
+  });
+  return { weeks, worst };
+}
+
+function openNeeds(teamIdx) {
+  return fillSlots(rosterOf(teamIdx)).filter(r => !r.p && r.lab !== "BN").map(r => r.lab);
+}
+
+function byeClashes(list) {
+  const counts = {};
+  fillSlots(list).forEach(r => {
+    if (!r.p || r.lab === "BN" || !r.p.bye) return;
+    counts[r.p.bye] = (counts[r.p.bye] || 0) + 1;
+  });
+  return counts;
+}
+
+/* Positional run over the last 8 picks. */
+function runInfo() {
+  const last = S.picks.slice(-8).map(p => S.players.find(x => x.id === p.pid)).filter(Boolean);
+  const c = {};
+  last.forEach(p => c[p.pos] = (c[p.pos] || 0) + 1);
+  let hot = null;
+  Object.entries(c).forEach(([pos, n]) => {
+    if (n >= 4 && (!hot || n > hot.n)) hot = { pos, n };
+  });
+  return { last, hot, window: last.length };
+}
+
+/* ================================================================
+   ACTIONS
+   ================================================================ */
+function pushPick(pid, teamIdx) {
+  if (S.picks.some(p => p.pid === pid)) return false;
+  if (S.picks.length >= totalPicks()) return false;
+  const overall = currentPick();
+  const snake = teamOnClock(overall);
+  const team = teamIdx ?? snake;
+  // Remember that a pick broke snake order, so renumbering can't silently "correct" it.
+  S.picks.push({ pid, team, overall, manual: teamIdx != null && teamIdx !== snake });
+  S.queue = S.queue.filter(q => q !== pid);
+  return true;
+}
+
+function draftPlayer(pid, teamIdx) {
+  if (S.picks.some(p => p.pid === pid)) return;
+  if (S.picks.length >= totalPicks()) { toast("Draft is complete — all " + totalPicks() + " picks are in."); return; }
+  pushPick(pid, teamIdx);
+  commit();
+}
+
+/* ---------------- rehearsal ----------------
+   Stand-in opponents so the whole thing can be driven end to end before it
+   counts. They draft near ADP, lean toward slots they still have to fill,
+   and leave kickers and defences until the last rounds - close enough that
+   the board behaves like a real room. */
+function autoPickFor(team) {
+  const taken = drafted();
+  const round = roundOf(currentPick());
+  const lateEnough = round >= S.cfg.rounds - 2;
+  let pool = S.players.filter(p => !taken.has(p.id) && p.adp != null)
+    .sort((a, b) => a.adp - b.adp);
+  if (!lateEnough) {
+    const skill = pool.filter(p => p.pos !== "K" && p.pos !== "DST");
+    if (skill.length) pool = skill;
+  }
+  if (!pool.length) {
+    pool = S.players.filter(p => !taken.has(p.id)).sort((a, b) => a.rank - b.rank);
+    if (!pool.length) return false;
+  }
+  const need = new Set(openNeeds(team).flatMap(l => l === "FLEX" ? ["RB", "WR", "TE"] : [l]));
+  const wanted = pool.filter(p => need.has(p.pos));
+  const from = (wanted.length && Math.random() < 0.75) ? wanted : pool;
+  return pushPick(from[Math.floor(Math.random() * Math.min(3, from.length))].id, team);
+}
+
+/* Runs the room forward to your turn. One commit at the end, not one per pick. */
+function simulateToMyPick() {
+  const me = S.cfg.mySlot - 1;
+  let n = 0;
+  while (S.picks.length < totalPicks() && teamOnClock(currentPick()) !== me) {
+    if (!autoPickFor(teamOnClock(currentPick()))) break;
+    if (++n > totalPicks()) break;
+  }
+  commit();
+  return n;
+}
+function undo() {
+  if (!S.picks.length) return;
+  const gone = S.picks.pop();
+  if (String(gone.pid).startsWith("off:")) { dropOffBoard(gone.pid); refreshActive(); }
+  commit();
+}
+/* Changing the league size or the reversal rule changes who owns which pick,
+   so every pick already logged has to be re-seated. Without this, picks made
+   for teams beyond the new size are orphaned: still off the board, on nobody's
+   roster, invisible in the League view and absent from every roster count. */
+function reseatPicks() {
+  const last = S.cfg.teams - 1;
+  S.picks = S.picks.map(p => ({
+    ...p,
+    team: p.manual ? Math.min(p.team, last) : teamOnClock(p.overall),
+  }));
+}
+
+function removePick(overall) {
+  const gone = S.picks.find(p => p.overall === overall);
+  if (gone && String(gone.pid).startsWith("off:")) { dropOffBoard(gone.pid); refreshActive(); }
+  S.picks = S.picks.filter(p => p.overall !== overall)
+                   .sort((a,b) => a.overall - b.overall)
+                   .map((p, i) => ({ ...p, overall: i + 1,
+                                     team: p.manual ? p.team : teamOnClock(i + 1) }));
+  commit();
+}
+function toggleQueue(pid) {
+  S.queue = S.queue.includes(pid) ? S.queue.filter(q => q !== pid) : [...S.queue, pid];
+  commit();
+}
+function commit() { save(); render(); }
+
+/* ---------------- backup ----------------
+   The page is the program; everything you set up - rankings, article picks,
+   league settings, picks so far - lives in this browser's storage and does
+   NOT travel with the file. A backup is how a setup built on one device
+   reaches another. S.players is left out because it is rebuilt from
+   S.sources on load. */
+const backupPayload = () => JSON.stringify({ ...S, players: undefined }, null, 1);
+
+function applyBackup(obj) {
+  if (!obj || typeof obj !== "object") throw new Error("not a backup");
+  if (!Array.isArray(obj.sources) && !Array.isArray(obj.players))
+    throw new Error("no rankings inside");
+  const keepTheme = S.theme;
+  S = Object.assign(defaults(), obj);
+  S.cfg = Object.assign(defaults().cfg, obj.cfg || {});
+  S.ui  = Object.assign(defaults().ui,  obj.ui  || {});
+  if (S.theme == null) S.theme = keepTheme;
+  migrate();          // accepts a backup written before ranking sets existed
+  refreshActive();
+  applyTheme();
+  commit();
+  return {
+    lists: S.sources.length,
+    players: S.players.length,
+    notes: S.notes.length,
+    picks: S.picks.length,
+  };
+}
+
+/* Two ways to hand over a file, because this page runs in two places.
+   Opened from your own disk it is an ordinary web page and the browser
+   saves the blob. Opened in the hosted viewer the frame cannot download
+   anything itself, and the host mediates the save instead. Asked for early
+   so the answer is ready by the time anyone reaches the Setup tab. */
+const inViewer = () => !!(window.claude && typeof window.claude.use === "function");
+let downloadsPromise = null;
+function downloadsCap() {
+  if (!downloadsPromise) {
+    downloadsPromise = Promise.resolve(null);
+    if (inViewer()) {
+      // A host that throws instead of rejecting would otherwise escape before
+      // the .catch is attached, and the button would just look dead.
+      try {
+        downloadsPromise = Promise.resolve(window.claude.use("downloads")).catch(() => null);
+      } catch (e) { downloadsPromise = Promise.resolve(null); }
+    }
+  }
+  return downloadsPromise;
+}
+downloadsCap();   // warm it; the namespace never resolves on this first run
+
+function saveViaBrowser(name, text) {
+  const blob = new Blob([text], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+async function downloadBackup() {
+  const name = `draft-kit-${new Date().toISOString().slice(0, 10)}.json`;
+  const text = backupPayload();
+  const cap = await downloadsCap();
+  if (cap) {
+    try {
+      await cap.save({ filename: name, data: text });
+      toast("Backup saved.");
+    } catch (err) {
+      const code = err && err.code;
+      if (code === "declined") toast("Save cancelled.");
+      else if (code === "rate_limited") toast("A save is already in progress — try again in a moment.");
+      else if (code === "too_large") toast("Too big to save as a file — use the clipboard instead.");
+      else toast("Couldn't save a file here — use Copy backup to clipboard.");
+    }
+    return;
+  }
+  if (inViewer()) {   // hosted, but saving isn't on offer in this view
+    toast("Saving files isn't available here — use Copy backup to clipboard.");
+    return;
+  }
+  try { saveViaBrowser(name, text); toast("Backup saved to your downloads."); }
+  catch (e) { toast("Couldn't save a file here — use Copy backup to clipboard."); }
+}
+
+let toastT = null;
+function toast(msg) {
+  let el = document.getElementById("toast");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "toast";
+    el.style.cssText = "position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:80;"
+      + "background:var(--ink);color:var(--surface);padding:9px 15px;border-radius:6px;font-size:13px;"
+      + "font-weight:600;box-shadow:var(--shadow-lift);max-width:88vw;text-align:center;";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.display = "block";
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.style.display = "none"; }, 2400);
+}
+
+/* ================================================================
+   RENDER
+   ================================================================ */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const posVar = pos => `--p:var(--pos-${POS.includes(pos) ? pos : "K"})`;
+const teamName = i => (S.cfg.names[i] && S.cfg.names[i].trim()) || `Team ${i + 1}`;
+
+function render() {
+  refreshClubs();
+  syncSortOptions();
+  renderSourcePicker();
+  renderVerdict();
+  renderStatus();
+  renderFilters();
+  renderBoard();
+  renderSide();
+  renderTeam();
+  renderLeague();
+  renderLog();
+  renderSetup();
+  document.querySelectorAll(".tab").forEach(t =>
+    t.setAttribute("aria-selected", String(t.dataset.tab === S.ui.tab)));
+  document.querySelectorAll(".pane, .pane-split").forEach(p =>
+    p.classList.toggle("on", p.id === "pane-" + S.ui.tab));
+}
+
+function renderStatus() {
+  const V = view();
+  const mine = teamOnClock(V.cur) === S.cfg.mySlot - 1;
+  const done = S.picks.length >= totalPicks();
+  const until = picksUntilMine();
+
+  const st = document.getElementById("status");
+  st.dataset.mine = mine && !done ? "1" : "0";
+
+  const cn = document.getElementById("clockN");
+  const cl = document.getElementById("clockL");
+  if (!S.players.length) { cn.textContent = "—"; cl.innerHTML = "<b>load</b>rankings"; }
+  else if (done)         { cn.textContent = "✓"; cl.innerHTML = "<b>draft</b>complete"; }
+  else if (mine)         { cn.textContent = "0"; cl.innerHTML = "<b>you're up</b>pick now"; }
+  else if (until == null){ cn.textContent = "–"; cl.innerHTML = "<b>no more</b>picks"; }
+  else                   { cn.textContent = until; cl.innerHTML = "<b>picks</b>until you"; }
+
+  document.getElementById("rp").textContent =
+    done ? "Final" : `R${roundOf(V.cur)}·${String(slotInRound(V.cur)).padStart(2,"0")}`;
+  document.getElementById("onclock").textContent =
+    !S.players.length ? "Load your rankings to start"
+    : done ? `${totalPicks()} picks recorded`
+    : mine ? "YOU ARE ON THE CLOCK"
+    : `${teamName(teamOnClock(V.cur))} on the clock · pick ${V.cur} of ${totalPicks()}`;
+
+  // Alert chips: only what changes a decision right now
+  const chips = [];
+  const run = runInfo();
+  if (run.hot) chips.push(`<span class="chip chip-warn"><span class="dot"></span>${run.hot.pos} run · ${run.hot.n} of last ${run.window}</span>`);
+
+  // Only warn about a cliff at a position you still have to fill, and only
+  // about the two most urgent — five simultaneous alarms say nothing.
+  const me = S.cfg.mySlot - 1;
+  const needs = openNeeds(me);
+  const needSet = new Set(needs.flatMap(l => l === "FLEX" ? ["RB","WR","TE"] : [l]));
+  if (until != null && until > 0) {
+    POS.slice(0,4)
+      .map(pos => ({ pos, t: V.tiers[pos] }))
+      .filter(x => x.t && x.t.left <= 2 && needSet.has(x.pos))
+      .sort((a,b) => a.t.left - b.t.left)
+      .slice(0,2)
+      .forEach(x => chips.push(
+        `<span class="chip chip-crit"><span class="dot"></span>${x.pos} tier ${x.t.tier} · ${x.t.left} left</span>`));
+  }
+  if (needs.length && rosterOf(me).length)
+    chips.push(`<span class="chip chip-mute"><span class="dot"></span>Need ${needs.slice(0,4).join(" ")}</span>`);
+
+  document.getElementById("undoBtn").disabled = !S.picks.length;
+
+  const sim = document.getElementById("simBtn");
+  sim.hidden = !S.cfg.rehearse;
+  sim.disabled = done || mine;
+  if (S.cfg.rehearse)
+    chips.unshift(`<span class="chip chip-warn"><span class="dot"></span>Rehearsal</span>`);
+  document.getElementById("alerts").innerHTML = chips.join("");
+}
+
+function renderSourcePicker() {
+  const el = document.getElementById("srcrow");
+  const multi = S.sources.length > 1;
+  el.hidden = !multi;
+  if (!multi) return;
+  const items = [{ id: CONSENSUS, name: `Consensus · ${S.sources.length}` }, ...S.sources];
+  el.innerHTML = `<span class="eyebrow">Ranks</span>` + items.map(x =>
+    `<button class="sbtn-src" data-src="${x.id}" aria-pressed="${S.activeSource === x.id}">${esc(x.name)}</button>`
+  ).join("");
+}
+
+function renderVerdict() {
+  const el = document.getElementById("verdict");
+  if (!el) return;
+  const costs = waitCosts();
+  const needed = costs.filter(c => c.needed);
+  // Rank within the slots you still have to fill - the costliest position
+  // overall is no use if you already have that starter. The runner-up has to
+  // come from the same list, or the sentence contradicts its own number.
+  const pool = needed.length ? needed : costs;
+  const top = pool[0];
+  /* A one-point drop is not a reason to change your pick, and a banner that
+     says so is worse than no banner - it spends the reader's attention on
+     noise and makes the real warnings easier to ignore. Below a handful of
+     points, say nothing; the full table in the side panel still shows it. */
+  const WORTH_SAYING = 5;
+  if (!top || top.drop < WORTH_SAYING) { el.innerHTML = ""; return; }
+  const runner = pool[1];
+  const why = needed.length
+    ? "costliest slot you still need"
+    : "biggest drop-off on the board";
+  el.innerHTML = `
+    <button class="verdict" data-f="${top.pos}" style="${posVar(top.pos)}"
+      title="Filter the board to ${top.pos}">
+      <span class="verdict-pos">${top.pos}</span>
+      <span class="verdict-t"><b>${esc(top.best.name)}</b> now
+        <span>&middot; ${why}${runner ? ` &middot; ${runner.pos} next at ${Math.max(0, runner.drop)}` : ""}</span></span>
+      <span class="verdict-n">&minus;${top.drop}</span>
+    </button>`;
+}
+
+function renderFilters() {
+  const V = view();
+  const el = document.getElementById("filters");
+  const counts = { ALL: V.avail.length };
+  POS.forEach(p => counts[p] = V.avail.filter(x => x.pos === p).length);
+  // Count what the Queue tab will actually render: a player starred under one
+  // ranking set may not exist in the set you're using now.
+  const queued = V.avail.filter(p => S.queue.includes(p.id)).length;
+  const noted = { TARGET: 0, AVOID: 0 };
+  V.avail.forEach(p => {
+    const t = noteTally(p.id);
+    if (t.target) noted.TARGET++;
+    if (t.avoid)  noted.AVOID++;
+  });
+  // Keep the filter you're standing on visible even after it empties, or the
+  // board goes blank with no way back and no explanation.
+  const items = ["ALL", ...POS.filter(p => counts[p] > 0 || S.ui.filter === p), "QUEUE",
+    ...(noted.TARGET || S.ui.filter === "TARGET" ? ["TARGET"] : []),
+    ...(noted.AVOID  || S.ui.filter === "AVOID"  ? ["AVOID"]  : [])];
+  el.innerHTML = items.map(k => {
+    const on = S.ui.filter === k;
+    const n = k === "QUEUE" ? queued : (k === "TARGET" || k === "AVOID") ? noted[k] : counts[k];
+    const style = POS.includes(k) ? ` style="${posVar(k)}"` : "";
+    const attr  = POS.includes(k) ? ` data-pos="${k}"` : "";
+    const label = k === "QUEUE" ? "★ Queue"
+      : k === "TARGET" ? `<span style="color:var(--good)">▲</span> Targets`
+      : k === "AVOID"  ? `<span style="color:var(--crit)">▼</span> Avoid`
+      : k;
+    return `<button class="fbtn"${attr}${style} aria-pressed="${on}" data-f="${k}">${label} <span style="opacity:.6">${n}</span></button>`;
+  }).join("");
+
+  // The pill row scrolls sideways on a tablet, so the filter you just chose can
+  // sit off-screen with nothing showing which one is live. Nudge it into view -
+  // scrolling this container only, never the page.
+  const act = el.querySelector('[aria-pressed="true"]');
+  if (act) {
+    const l = act.offsetLeft, r = l + act.offsetWidth;
+    if (l < el.scrollLeft) el.scrollLeft = Math.max(0, l - 8);
+    else if (r > el.scrollLeft + el.clientWidth) el.scrollLeft = r - el.clientWidth + 8;
+  }
+}
+
+function playerRow(p, V, opts = {}) {
+  const q = S.queue.includes(p.id);
+  const surv = p._surv;
+  const band = surv == null ? "" : surv >= .66 ? "hi" : surv >= .33 ? "mid" : "lo";
+  const showSurv = V.nxt != null && surv != null && !opts.hideSurv;
+  const edge = p._edge;
+
+  const sortIsVorp = S.ui.sort === "vorp" && p._vorp != null;
+  const rightNum = sortIsVorp
+    ? `<div class="val ${p._vorp > 0 ? "up" : "down"}">${p._vorp > 0 ? "+" : ""}${p._vorp}</div>`
+    : (edge != null
+        ? `<div class="val ${edge >= 4 ? "up" : "down"}" title="${
+             `You have him ${p.pos}${p.pr}; the room drafts him as ${p.pos}${p.apr}` +
+             (edge > 0 ? ` — ${edge} spots of cushion, you can wait`
+              : edge < 0 ? ` — gone ${-edge} spots before your list wants him`
+              : ` — your list and the market agree`)
+           }">${edge > 0 ? "+" : ""}${edge}</div>`
+        : "");
+
+  return `
+  <button class="row ${q ? "queued" : ""}"${(() => {
+      const t = noteTally(p.id);
+      if (t.target && t.avoid) return ` data-note="split"`;
+      if (t.avoid)  return ` data-note="avoid"`;
+      if (t.target) return ` data-note="target"`;
+      if (t.watch)  return ` data-note="watch"`;
+      return "";
+    })()} data-pid="${p.id}" style="${posVar(p.pos)}">
+    <div class="rk">${p.rank}<small>${p.pos}${p.pr ?? ""}</small></div>
+    <div class="pos">${esc(p.pos)}</div>
+    <div class="who">
+      <div class="nm">${esc(p.name)}</div>
+      <div class="meta">
+        <span>${esc(p.team)}</span>
+        ${p.bye ? `<span class="sep">·</span><span>BYE ${p.bye}</span>` : ""}
+        ${p.tier != null ? `<span class="sep">·</span><span>T${p.tier}</span>` : ""}
+        ${p.adp != null ? `<span class="sep">·</span><span>ADP ${Math.round(p.adp)}</span>` : ""}
+        ${p.spread != null && p.spread >= 15
+          ? `<span class="sep">·</span><span style="color:var(--warn)" title="Your lists disagree by ${p.spread} places on this player">±${p.spread}</span>` : ""}
+        ${p.nIn != null && p.nIn < S.sources.length
+          ? `<span class="sep">·</span><span title="Appears on only some of your lists">${p.nIn}/${S.sources.length}</span>` : ""}
+        ${(() => {
+          const st = statusOf(p.id);
+          if (!st) return "";
+          return `<span class="sep">&middot;</span><span class="stag" style="color:var(--${
+            STATUS[st].tone});border-color:var(--${STATUS[st].tone})"
+            title="${STATUS[st].word}">${st}</span>`;
+        })()}
+        ${(() => {
+          const lk = clubLink(p);
+          if (!lk) return "";
+          return `<span class="sep">&middot;</span><span class="ntag" style="color:var(--accent-text)"
+            title="${lk.kind === "stack"
+              ? `Stacks with ${esc(lk.with.name)} on your roster`
+              : `Handcuff for ${esc(lk.with.name)} on your roster`}">${
+            lk.kind === "stack" ? "&#8644;" : "&#8630;"} ${esc(lastName(lk.with.name))}</span>`;
+        })()}
+        ${(() => {
+          const t = noteTally(p.id);
+          const keys = Object.keys(t);
+          if (!keys.length) return "";
+          return `<span class="sep">·</span>` + keys.map(k =>
+            `<span class="ntag" style="color:var(--${POLARITY[k].tone})" title="${t[k]} ${POLARITY[k].word.toLowerCase()} note${t[k]>1?"s":""} — long-press to read">${
+              POLARITY[k].glyph}${t[k] > 1 ? t[k] : ""}</span>`).join("");
+        })()}
+      </div>
+    </div>
+    <div class="rt">
+      ${showSurv ? `<div class="surv" data-band="${band}" title="Chance this player is still available at your next pick">
+        <div class="surv-n">${Math.round(surv*100)}%</div>
+        <div class="surv-bar"><div class="surv-fill" style="width:${Math.round(surv*100)}%"></div></div>
+      </div>` : ""}
+      ${rightNum}
+      <span class="qbtn" data-q="${p.id}" aria-pressed="${q}" role="button"
+            title="${q ? "Remove from queue" : "Add to queue"}">${q ? "★" : "☆"}</span>
+    </div>
+  </button>`;
+}
+
+function renderBoard() {
+  const el = document.getElementById("board");
+  const V = view();
+
+  if (!S.players.length) {
+    el.innerHTML = `<div class="empty">No rankings loaded.<br><br>
+      <button class="btn btn-primary" data-goto="setup">Import your rankings</button></div>`;
+    return;
+  }
+
+  let list = V.avail;
+  if (S.ui.filter === "QUEUE") list = list.filter(p => S.queue.includes(p.id));
+  else if (S.ui.filter === "TARGET") list = list.filter(p => noteTally(p.id).target);
+  else if (S.ui.filter === "AVOID")  list = list.filter(p => noteTally(p.id).avoid);
+  else if (S.ui.filter !== "ALL") list = list.filter(p => p.pos === S.ui.filter);
+
+  /* Match on a punctuation-free form, and again with spaces removed. Typed at
+     speed, "jamarr" has to find Ja'Marr Chase and "smithnjigba" has to find
+     Jaxon Smith-Njigba - the raw string does neither. */
+  const flat = t => t.toLowerCase().normalize("NFD")
+    .replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+  const q = flat(S.ui.q);
+  if (q) {
+    const qs = q.replace(/ /g, "");
+    list = list.filter(p => {
+      if (!p._sk) {
+        p._sk = flat(p.name + " " + p.team + " " + p.pos);
+        p._sq = p._sk.replace(/ /g, "");
+      }
+      return p._sk.includes(q) || p._sq.includes(qs);
+    });
+  }
+
+  /* Order by one key. Unknown values always sink to the bottom whichever way
+     the sort runs, and ties break on your rank so the board never reshuffles
+     under you between renders. Sentinels like `?? Infinity` looked equivalent
+     but compare two unknowns as Infinity - Infinity = NaN, which silently
+     voids the comparator's contract for that pair. */
+  const by = (key, desc) => (a, b) => {
+    const x = key(a), y = key(b);
+    if (x == null && y == null) return a.rank - b.rank;
+    if (x == null) return 1;
+    if (y == null) return -1;
+    return (desc ? y - x : x - y) || (a.rank - b.rank);
+  };
+  const sorters = {
+    rank:  (a,b) => a.rank - b.rank,
+    adp:   by(p => p.adp,        false),
+    value: by(p => p._edgeScore, true),
+    surv:  by(p => p._surv,      false),
+    vorp:  by(p => p._vorp,      true),
+  };
+  list = [...list].sort(sorters[S.ui.sort] || sorters.rank);
+
+  if (!list.length) {
+    el.innerHTML = `<div class="empty">
+      ${q ? "No player matches &ldquo;" + esc(S.ui.q) + "&rdquo;." : "Nothing left here."}
+      ${q ? `<br><br><button class="btn" id="offBoardBtn">Log a pick for someone not on my board</button>` : ""}
+    </div>`;
+    return;
+  }
+
+  const cap = 240;
+  const shown = list.slice(0, cap);
+
+  /* Tiers are per position, so a rule only means something on a list that is
+     one position, in rank order, and unsearched. On a mixed board "tier 3"
+     would be three unrelated groups sharing a number. */
+  const showTiers = S.ui.sort === "rank" && !q && POS.includes(S.ui.filter);
+  let html = "", lastTier = null;
+  shown.forEach(p => {
+    if (showTiers && p.tier != null && p.tier !== lastTier) {
+      lastTier = p.tier;
+      const left = list.filter(x => x.tier === p.tier).length;
+      html += `<div class="tierbreak"><span class="eyebrow">Tier ${p.tier}</span>
+               <span class="ln"></span><span class="eyebrow">${left} left</span></div>`;
+    }
+    html += playerRow(p, V);
+  });
+  if (list.length > cap) html += `<div class="empty">${list.length - cap} more not shown.
+    Filter by position or search to reach them.</div>`;
+  el.innerHTML = html;
+}
+
+function renderSide() {
+  const el = document.getElementById("side");
+  if (!S.players.length) { el.innerHTML = ""; return; }
+  const V = view();
+  const until = picksUntilMine();
+
+  // --- scarcity: how deep is the current tier at each position ---
+  const scar = POS.slice(0,4).map(pos => {
+    const t = V.tiers[pos];
+    if (!t) return `<div class="scar-row" style="${posVar(pos)}">
+        <span class="pos">${pos}</span><div class="scar-track"></div><span class="scar-n">out</span></div>`;
+    const pct = Math.min(100, (t.left / 8) * 100);
+    return `<div class="scar-row" style="${posVar(pos)}">
+      <span class="pos">${pos}</span>
+      <div class="scar-track"><div class="scar-fill" style="width:${pct}%"></div></div>
+      <span class="scar-n"><b>${t.left}</b> in T${t.tier}</span>
+    </div>`;
+  }).join("");
+
+  // --- who probably won't survive to your next turn ---
+  let gone = "";
+  if (until != null && until > 0) {
+    const risky = V.avail.filter(p => p._surv != null && p._surv < .5)
+                         .sort((a,b) => a.rank - b.rank).slice(0, 6);
+    gone = risky.length ? risky.map(p => `
+      <div class="team-p with-val" style="${posVar(p.pos)}">
+        <span class="pos">${p.pos}</span>
+        <span>${esc(p.name)}</span>
+        <span class="num" style="font-size:11px;color:var(--crit)">${Math.round(p._surv*100)}%</span>
+      </div>`).join("")
+      : `<div style="padding:4px 0;font-size:12.5px;color:var(--ink-3)">Everyone near the top of your board is likely to last.</div>`;
+  }
+
+  const costs = waitCosts();
+  const waitCard = costs.length ? `
+    <div class="card">
+      <div class="card-h"><span class="eyebrow">Cost of waiting</span>
+        <span class="eyebrow">to pick ${V.nxt}</span></div>
+      <div class="card-b">
+        <div class="pbars">${(() => {
+          const max = Math.max(1, ...costs.map(c => Math.abs(c.drop)));
+          return costs.map(c => `<div class="pbar-row" style="${posVar(c.pos)}">
+            <span class="pos">${c.pos}</span>
+            <div class="scar-track"><div class="scar-fill"
+              style="width:${Math.round(Math.max(0, c.drop) / max * 100)}%"></div></div>
+            <span class="pbar-n">${c.drop > 0 ? "&minus;" + c.drop : "0"}</span>
+          </div>`).join("");
+        })()}</div>
+        <div class="hint" style="margin-top:8px">Points you give up at each position by
+          waiting one turn. Big number, take it now.</div>
+      </div>
+    </div>` : "";
+
+  const run = runInfo();
+  const runStrip = run.last.length ? `<div class="runs">${
+    run.last.map(p => `<div class="run-cell" style="${posVar(p.pos)}">${p.pos}</div>`).join("")
+  }</div>` : `<div style="font-size:12.5px;color:var(--ink-3)">No picks yet.</div>`;
+
+  el.innerHTML = `
+    ${waitCard}
+    <div class="card">
+      <div class="card-h"><span class="eyebrow">Tier depth</span>
+        <span class="eyebrow">${V.avail.length} available</span></div>
+      <div class="card-b"><div class="scar">${scar}</div></div>
+    </div>
+    ${until != null && until > 0 ? `
+    <div class="card">
+      <div class="card-h"><span class="eyebrow">Likely gone in ${until}</span></div>
+      <div class="card-b flush" style="padding:7px 0">${gone}</div>
+    </div>` : ""}
+    <div class="card">
+      <div class="card-h"><span class="eyebrow">Last ${run.window} picks</span>
+        ${run.hot ? `<span class="chip chip-warn"><span class="dot"></span>${run.hot.pos} run</span>` : ""}</div>
+      <div class="card-b">${runStrip}</div>
+    </div>`;
+}
+
+function renderTeam() {
+  const el = document.getElementById("teamView");
+  const me = S.cfg.mySlot - 1;
+  const list = rosterOf(me);
+  const rows = fillSlots(list);
+  const proj = hasProj();
+  const mine = teamPoints(me);
+  const { avg } = leagueAverages();
+  const val = valueCaptured(me);
+  const byes = byeLoad(me);
+  const V = view();
+
+  if (!list.length) {
+    el.innerHTML = `<div class="empty">Nothing drafted yet.<br>
+      Your roster, projections and league comparison appear here as you pick.</div>`;
+    return;
+  }
+
+  /* ---------- headline numbers ---------- */
+  const dTotal = Math.round(mine.total - avg.total);
+  const tiles = [];
+  if (proj) {
+    const ranked = [...Array(S.cfg.teams).keys()]
+      .map(i => ({ i, t: teamPoints(i).total })).sort((a, b) => b.t - a.t);
+    const place = ranked.findIndex(x => x.i === me) + 1;
+    const suffix = n => (n % 100 >= 11 && n % 100 <= 13) ? "th"
+      : ["th", "st", "nd", "rd"][n % 10] || "th";
+    const behind = Math.round(ranked[0].t - mine.total);
+    tiles.push(`<div class="tile">
+      <div class="tile-n">${Math.round(mine.total).toLocaleString()}</div>
+      <div class="tile-l">Projected starters</div>
+      <div class="tile-c ${dTotal >= 0 ? "up" : "down"}">${dTotal >= 0 ? "+" : ""}${dTotal.toLocaleString()} vs league average</div>
+    </div>`);
+    tiles.push(`<div class="tile">
+      <div class="tile-n">${place}<span style="font-size:15px">${suffix(place)}</span></div>
+      <div class="tile-l">of ${S.cfg.teams} on points</div>
+      <div class="tile-c">${behind === 0 ? "leading the room" : behind.toLocaleString() + " behind the leader"}</div>
+    </div>`);
+  }
+  tiles.push(`<div class="tile">
+    <div class="tile-n">${val.spots >= 0 ? "+" : ""}${val.spots}</div>
+    <div class="tile-l">Picks of value</div>
+    <div class="tile-c ${val.spots >= 0 ? "up" : "down"}">${val.spots >= 0
+      ? "taken later than ADP on balance" : "reached, on balance"}</div>
+  </div>`);
+  tiles.push(`<div class="tile">
+    <div class="tile-n sm">${byes.worst ? "Week " + byes.worst.week : "None"}</div>
+    <div class="tile-l">Worst bye</div>
+    <div class="tile-c ${byes.worst && byes.worst.n >= 3 ? "down" : ""}">${byes.worst
+      ? byes.worst.n + " starter" + (byes.worst.n > 1 ? "s" : "") + " out"
+      : "no starter clashes yet"}</div>
+  </div>`);
+
+  /* ---------- roster, each starter's share of the points ---------- */
+  const projRows = rows.filter(r => r.p && r.p.proj != null).map(r => r.p.proj);
+  const bestPts = projRows.length ? Math.max.apply(null, projRows) : 1;
+  const slotHtml = rows.map(r => {
+    if (!r.p) return `<div class="slot open">
+        <span class="slot-lab">${r.lab}</span>
+        <span class="slot-nm">empty</span><span></span></div>`;
+    const clash = r.p.bye && (byes.weeks[r.p.bye] || []).length > 1 && r.lab !== "BN";
+    const pts = r.p.proj;
+    const showBar = proj && pts != null;
+    return `<div class="slot filled" style="${posVar(r.p.pos)}">
+      <span class="slot-lab">${r.lab}</span>
+      <span class="slot-mid">
+        <span class="slot-nm">${esc(r.p.name)}
+          <span class="num" style="color:var(--ink-3);font-size:11px">${esc(r.p.team)}</span></span>
+        ${showBar ? `<span class="slot-bar"><i style="width:${Math.round(pts / bestPts * 100)}%"></i></span>` : ""}
+      </span>
+      <span style="text-align:right">
+        ${showBar ? `<span class="slot-pts">${Math.round(pts)}</span><br>` : ""}
+        <span class="slot-bye ${clash ? "clash" : ""}">${r.p.bye ? "BYE " + r.p.bye : ""}</span>
+      </span>
+    </div>`;
+  }).join("");
+
+  /* ---------- positional strength ---------- */
+  let strength = "";
+  if (proj) {
+    // Every position with a starting slot, so the bars add up to the headline
+    // number above. Charting only the skill spots left K and DST unaccounted
+    // for and the two figures silently disagreed.
+    const deltas = POS.filter(pos => (S.cfg.slots[pos] || 0) > 0)
+      .map(pos => ({ pos, d: (mine.byPos[pos] || 0) - (avg.byPos[pos] || 0) }));
+    const max = Math.max(20, ...deltas.map(x => Math.abs(x.d)));
+    strength = `
+      <div class="card">
+        <div class="card-h"><span class="eyebrow">Strength by position</span>
+          <span class="eyebrow" style="color:var(--${dTotal >= 0 ? "good" : "crit"})">${
+            dTotal >= 0 ? "+" : ""}${dTotal} overall</span></div>
+        <div class="card-b">
+          <div class="pbars">${deltas.map(x => {
+            const w = Math.abs(x.d) / max * 48;
+            const style = x.d >= 0 ? `left:50%;width:${w}%` : `left:${50 - w}%;width:${w}%`;
+            return `<div class="pbar-row" style="${posVar(x.pos)}">
+              <span class="pos">${x.pos}</span>
+              <div class="pbar-track"><div class="pbar-fill" style="${style}"></div></div>
+              <span class="pbar-n ${x.d >= 0 ? "up" : "down"}">${x.d >= 0 ? "+" : ""}${Math.round(x.d)}</span>
+            </div>`;
+          }).join("")}</div>
+          <div class="pbar-scale"><span>behind</span><span>ahead</span></div>
+        </div>
+      </div>`;
+  } else {
+    strength = `<div class="banner banner-info"><span class="ic">&#9671;</span>
+      <span>Points-based stats need a projected-points column in your rankings.
+      Value and bye stats work from ADP alone, so those are still live.</span></div>`;
+  }
+
+  /* ---------- bye weeks as columns ---------- */
+  const used = Object.keys(byes.weeks).map(Number);
+  const lo = Math.min(5, ...(used.length ? used : [5]));
+  const hi = Math.max(14, ...(used.length ? used : [14]));
+  const span = [];
+  for (let w = lo; w <= hi; w++) span.push(w);
+  // Height is severity, not a relative share: 4 starters out is a full column,
+  // so a single bye reads as the minor thing it is.
+  const FULL_COLUMN = 4;
+  const byeCols = span.map(w => {
+    const out = byes.weeks[w] || [];
+    return `<div class="byecol ${out.length >= 3 ? "hot" : ""} ${out.length ? "" : "empty-col"}">
+      <span class="byecol-n">${out.length || "\u00b7"}</span>
+      <div class="byecol-track" title="${out.length
+        ? esc(out.map(p => p.name).join(", ")) : "no starters on bye"}">
+        ${out.map(p => `<div class="byecol-seg" style="${posVar(p.pos)};height:${100 / Math.max(FULL_COLUMN, out.length)}%"></div>`).join("")}
+      </div>
+      <span class="byecol-w">${w}</span>
+    </div>`;
+  }).join("");
+
+  /* ---------- the shape of your draft ---------- */
+  const shape = S.picks.filter(pk => pk.team === me).map(pk => {
+    const p = S.players.find(x => x.id === pk.pid);
+    if (!p) return "";
+    return `<div class="shape-pick" style="${posVar(p.pos)}" title="${esc(p.name)} &mdash; round ${roundOf(pk.overall)}, pick ${pk.overall}">
+      <span class="shape-chip">${p.pos}</span>
+      <span class="shape-r">R${roundOf(pk.overall)}</span>
+    </div>`;
+  }).join("");
+
+  /* ---------- what's still open, and who's there now ---------- */
+  const needs = openNeeds(me);
+  const needHtml = needs.map(lab => {
+    const want = lab === "FLEX" ? ["RB", "WR", "TE"] : [lab];
+    const best = V.avail.filter(p => want.includes(p.pos)).sort((a, b) => a.rank - b.rank)[0];
+    if (!best) return "";
+    return `<div class="team-p with-val" style="${posVar(best.pos)}">
+      <span class="pos">${lab}</span>
+      <span>${esc(best.name)}</span>
+      <span class="num" style="font-size:11px;color:var(--ink-3)">${best.pos}${best.pr}</span>
+    </div>`;
+  }).join("");
+
+  const nextPick = myNextPick(currentPick());
+
+  el.innerHTML = `
+    <div class="tiles">${tiles.join("")}</div>
+
+    <div class="card">
+      <div class="card-h">
+        <span class="eyebrow">Your roster &middot; slot ${S.cfg.mySlot}</span>
+        <span class="eyebrow">${list.length} / ${S.cfg.rounds} picks</span>
+      </div>
+      <div class="card-b flush"><div class="slots">${slotHtml}</div></div>
+    </div>
+
+    ${strength}
+
+    ${needHtml ? `<div class="card">
+      <div class="card-h"><span class="eyebrow">Still to fill</span>
+        <span class="eyebrow">best available now</span></div>
+      <div class="card-b flush" style="padding:7px 0">${needHtml}</div>
+    </div>` : ""}
+
+    <div class="card">
+      <div class="card-h"><span class="eyebrow">Starters on bye, by week</span>
+        <span class="eyebrow">${byes.worst && byes.worst.n >= 3 ? "3+ is a problem week" : "bar colour is position"}</span></div>
+      <div class="card-b"><div class="byecols">${byeCols}</div></div>
+    </div>
+
+    ${shape ? `<div class="card">
+      <div class="card-h"><span class="eyebrow">How you drafted</span>
+        <span class="eyebrow">in order</span></div>
+      <div class="card-b"><div class="shape">${shape}</div></div>
+    </div>` : ""}
+
+    <div class="card">
+      <div class="card-h"><span class="eyebrow">Your remaining picks</span></div>
+      <div class="card-b">
+        <div class="byes">${(() => {
+          const out = []; let o = nextPick;
+          while (o != null && out.length < 12) { out.push(o); o = myNextPick(o + 1); }
+          return out.length
+            ? out.map(o => `<span class="bye">R${roundOf(o)} &middot; #${o}</span>`).join("")
+            : `<span style="font-size:12.5px;color:var(--ink-3)">No picks remaining.</span>`;
+        })()}</div>
+      </div>
+    </div>`;
+}
+
+function renderLeague() {
+  const el = document.getElementById("leagueView");
+  const cards = [];
+  for (let i = 0; i < S.cfg.teams; i++) {
+    const list = rosterOf(i).sort((a,b) => a.rank - b.rank);
+    const needs = openNeeds(i);
+    cards.push(`
+      <div class="team ${i === S.cfg.mySlot - 1 ? "me" : ""}">
+        <div class="team-h">
+          <span class="team-n">${esc(teamName(i))}${i === S.cfg.mySlot - 1 ? " <span class='eyebrow'>you</span>" : ""}</span>
+          <span class="team-need">${needs.slice(0,3).map(n =>
+            `<span class="need-tag" style="${posVar(n)}">${n}</span>`).join("")}</span>
+        </div>
+        <div class="team-list">${
+          list.length ? list.map(p => `<div class="team-p" style="${posVar(p.pos)}">
+            <span class="pos">${p.pos}</span><span>${esc(p.name)}</span></div>`).join("")
+          : `<div class="team-p"><span></span><span style="color:var(--ink-3)">—</span></div>`
+        }</div>
+      </div>`);
+  }
+  el.innerHTML = `<div class="teams">${cards.join("")}</div>`;
+}
+
+function renderLog() {
+  const el = document.getElementById("logView");
+  if (!S.picks.length) {
+    el.innerHTML = `<div class="empty">No picks recorded yet.<br>Tap a player on the board to log the pick.</div>`;
+    return;
+  }
+  const rows = [...S.picks].reverse().map(pk => {
+    const p = S.players.find(x => x.id === pk.pid);
+    if (!p) return "";
+    const mine = pk.team === S.cfg.mySlot - 1;
+    return `<div class="log-row ${mine ? "mine" : ""}" style="${posVar(p.pos)}">
+      <span class="log-pk">R${roundOf(pk.overall)}·${String(slotInRound(pk.overall)).padStart(2,"0")}</span>
+      <span class="pos" ${p.off ? 'style="background:var(--surface-3);color:var(--ink-3)"' : ""}>${p.pos}</span>
+      <span>
+        <div class="slot-nm">${esc(p.name)}${p.off
+          ? ` <span class="ntag" style="color:var(--ink-3)" title="Logged by hand — not in any of your ranking files">off board</span>` : ""}</div>
+        <div class="log-team">${esc(teamName(pk.team))}</div>
+      </span>
+      <button class="xbtn" data-del="${pk.overall}" title="Delete this pick">✕</button>
+    </div>`;
+  }).join("");
+  el.innerHTML = `
+    <div class="banner banner-info"><span class="ic">↺</span>
+      <span>Deleting a pick re-numbers everything after it and reassigns each to the right team.
+      Use it when a pick was logged wrong, not to undo the last one — that's the Undo button.</span></div>
+    <div class="btnrow" style="margin-bottom:12px">
+      <button class="btn" id="offBoardBtn2">Log a pick for someone not on my board</button>
+    </div>
+    <div class="card"><div class="card-b flush">${rows}</div></div>`;
+}
+
+function renderSetup() {
+  const el = document.getElementById("setupView");
+  const c = S.cfg;
+  const theme = S.theme || "system";
+  el.innerHTML = `
+    ${S.isDemo && S.players.length ? `
+      <div class="banner banner-warn"><span class="ic">▲</span>
+        <span><b>You're on sample data.</b>These names are a placeholder board so you can learn the tool —
+        they are <em>not</em> current rankings. Import your own export before you draft.</span></div>` : ""}
+
+    <h2 class="sec">Rankings</h2>
+    <div class="field">
+      <label for="csvFile">Load a CSV export</label>
+      <input class="inp" type="file" id="csvFile">
+      <span class="hint">Pick your <b>.csv</b> export — the chooser is deliberately unfiltered,
+        because Android hides files it cannot match to a filter.
+        From FantasyPros, set your league's scoring first (6-pt pass TDs and any custom QB
+        settings) so the ranks you import already reflect it — then export. Sleeper, ESPN and Yahoo exports work too.
+        If your file has no tier column — or its tiers cover the whole board rather than each position —
+        tiers get derived per position, cut at the biggest ADP gaps.</span>
+    </div>
+    <div class="field">
+      <label for="csvText">…or paste it here</label>
+      <textarea class="ta" id="csvText" placeholder="RK,TIERS,PLAYER NAME,TEAM,POS,BYE WEEK&#10;1,1,Ja'Marr Chase,CIN,WR1,10&#10;…"></textarea>
+      <div class="btnrow">
+        <button class="btn btn-primary" id="importText">Import pasted CSV</button>
+        <button class="btn" id="loadDemo">Reload sample board</button>
+      </div>
+    </div>
+    <div id="mapArea"></div>
+
+    ${S.sources.length ? `
+    <h2 class="sec">Ranking sets</h2>
+    <div class="card">
+      <div class="card-h">
+        <span class="eyebrow">${S.sources.length} loaded</span>
+        <span class="eyebrow">using ${esc(activeSourceName())}</span>
+      </div>
+      <div class="card-b flush">
+        ${S.sources.length > 1 ? `
+          <button class="srcline ${S.activeSource === CONSENSUS ? "on" : ""}" data-use="${CONSENSUS}">
+            <span class="srcline-n">Consensus</span>
+            <span class="srcline-m">average rank across all ${S.sources.length}</span>
+          </button>` : ""}
+        ${S.sources.map(src => {
+          const withAdp  = src.players.filter(x => x.adp  != null).length;
+          const withProj = src.players.filter(x => x.proj != null).length;
+          const fit = fitScoring(src.players);
+          return `<div class="srcrow2 ${S.activeSource === src.id ? "on" : ""}">
+            <button class="srcline" data-use="${src.id}" style="flex:1;min-width:0">
+              <span class="srcline-n">${esc(src.name)}</span>
+              <span class="srcline-m">${src.players.length} players · ${withAdp} ADP · ${withProj} points</span>
+              ${fit ? `<span class="srcline-m">built on ${describeFit(fit)}</span>` : ""}
+            </button>
+            <button class="xbtn" data-dropsrc="${src.id}" title="Remove this list">✕</button>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>
+    ${(() => {
+      const fits = S.sources.map(src => fitScoring(src.players)).filter(Boolean);
+      if (fits.length < 2) return "";
+      const shapes = [...new Set(fits.map(describeFit))];
+      if (shapes.length < 2) return "";
+      return `<div class="banner banner-warn" style="margin-top:10px"><span class="ic">▲</span>
+        <span><b>These lists were scored differently.</b>${shapes.map(esc).join(" &nbsp;vs&nbsp; ")}.
+        Consensus averages their points, and averaging two scoring systems gives a number that is
+        neither. Turn on <b>Scoring</b> below to rebuild both under one set of rules, or use a
+        single list. Their ranks and ADP still reflect the format each was built for.</span></div>`;
+    })()}
+    <span class="hint">Picks follow the player, not the file — switch sets mid-draft and everything
+      already drafted stays drafted. Consensus averages the rank each list gives a player and flags
+      where they disagree.</span>` : ""}
+
+    <h2 class="sec">Article picks</h2>
+    <div class="field">
+      <label for="noteText">Paste an article, a list of names, or your own notes</label>
+      <textarea class="ta" id="noteText" placeholder="Paste the whole piece — the tool finds which of your players it mentions.">${esc(pendingNoteText)}</textarea>
+      <span class="hint">Works on any text: a staff-picks article, a newsletter, a bare list of names.
+        Nothing is fetched — paste it in and it matches against the board you've loaded, so it still
+        works with no signal in the room.</span>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label for="noteSource">Where it's from</label>
+        <input class="inp" id="noteSource" value="${esc(pendingNoteSource)}" placeholder="e.g. RotoBaller WR league-winners">
+      </div>
+      <div class="field">
+        <label>Verdict</label>
+        <div class="polrow">
+          ${Object.entries(POLARITY).map(([k, v]) =>
+            `<button class="polbtn" data-pol="${k}" aria-pressed="${pendingPol === k}">${v.glyph} ${v.word}</button>`).join("")}
+        </div>
+        ${pendingPol === "hurt" ? `<div class="filters" style="gap:5px;margin-top:7px">
+          ${STATUS_CODES.map(c => `<button class="fbtn" data-hurtcode="${c}"
+            aria-pressed="${pendingHurt === c}" title="${STATUS[c].word}">${c}</button>`).join("")}
+        </div>
+        <span class="hint">Everyone you tick gets this flag, and keeps the sentence it came from.</span>` : ""}
+      </div>
+    </div>
+    <div class="btnrow">
+      <button class="btn btn-primary" id="scanNotes">Find players in this text</button>
+      ${S.notes.length ? `<button class="btn btn-danger" id="clearNotes">Clear all notes</button>` : ""}
+    </div>
+    <div id="scanArea"></div>
+
+    ${noteSources().length ? `
+    <div class="card" style="margin-top:12px">
+      <div class="card-h"><span class="eyebrow">Loaded</span>
+        <span class="eyebrow">${S.notes.length} notes on ${new Set(S.notes.map(n => n.pid)).size} players</span></div>
+      <div class="card-b flush">
+        ${noteSources().map(g => {
+          const key = g.source + "|" + g.pol;
+          const open = (S.ui.openNotes || []).includes(key);
+          const named = S.notes.filter(n => n.source === g.source && n.pol === g.pol);
+          return `<div class="srcrow2">
+            <button class="srcline" data-opennotes="${esc(key)}" style="flex:1;min-width:0"
+              aria-expanded="${open}">
+              <span class="srcline-n">
+                <span class="ntag" style="color:var(--${POLARITY[g.pol].tone})">${POLARITY[g.pol].glyph}</span>
+                ${esc(g.source)}
+                <span class="chev">${open ? "▾" : "▸"}</span></span>
+              <span class="srcline-m">${g.n} player${g.n > 1 ? "s" : ""} · ${POLARITY[g.pol].word.toLowerCase()}
+                &middot; tap to ${open ? "hide" : "see who"}</span>
+            </button>
+            <button class="xbtn" data-dropnotes="${esc(key)}" title="Remove these notes">✕</button>
+          </div>
+          ${open ? `<div class="notelist">${named.map(n => {
+            const p = S.players.find(x => x.id === n.pid);
+            const nm = (p && p.name) || n.name || prettyKey(n.pid);
+            const ps = (p && p.pos) || n.pos || "—";
+            return `<div class="team-p with-val" style="${posVar(ps)}">
+              <span class="pos">${esc(ps)}</span>
+              <span>${esc(nm)}</span>
+              <span class="num" style="font-size:11px;color:var(--ink-3)">${
+                p && p.pr ? esc(ps) + p.pr : ""}</span>
+            </div>`;
+          }).join("")}</div>` : ""}`;
+        }).join("")}
+      </div>
+    </div>` : ""}
+
+    <h2 class="sec">League</h2>
+    <div class="grid2">
+      <div class="field"><label for="cfgTeams">Teams</label>
+        <input class="inp num" type="number" id="cfgTeams" min="2" max="32" value="${c.teams}"></div>
+      <div class="field"><label for="cfgSlot">Your draft slot</label>
+        <input class="inp num" type="number" id="cfgSlot" min="1" max="${c.teams}" value="${c.mySlot}"></div>
+      <div class="field"><label for="cfgRounds">Rounds</label>
+        <input class="inp num" type="number" id="cfgRounds" min="1" max="40" value="${c.rounds}"></div>
+    </div>
+    <div class="field">
+      <label><input type="checkbox" id="cfgTrr" ${c.trr ? "checked" : ""}> Third-round reversal</label>
+      <span class="hint">Round 3 repeats round 2's order instead of flipping back.</span>
+    </div>
+
+    ${!S.sources.length ? "" : !anyStats() ? `
+    <h2 class="sec">Scoring</h2>
+    <div class="banner banner-info"><span class="ic">&#9671;</span>
+      <span>${S.sources.some(src => src.players.some(x => x.statsChecked))
+        ? `<b>This list has no stat columns.</b>Rebuilding points needs passing, rushing and
+           receiving totals alongside the points column. Your export only carries the total,
+           so it is used as-is.`
+        : `<b>Import your rankings again to switch this on.</b>The lists you have loaded were
+           imported before this existed, so their stat columns were never read. Load the same
+           CSV again above, then remove the older copy under Ranking sets — your picks and
+           article notes are attached to the players and will not be affected.`}</span></div>
+    ` : `
+    <h2 class="sec">Scoring</h2>
+    <div class="field">
+      <label><input type="checkbox" id="scOn" ${S.cfg.scoring.on ? "checked" : ""}>
+        Score my league's way</label>
+      <span class="hint">Your export carries the underlying stat lines, so points can be
+        rebuilt under your rules instead of the site's. ${(() => {
+          const d = scoringDelta();
+          if (!d.moved.length)
+            return `<b>These settings match your file's own scoring</b> — all ${d.same} players
+                    come out the same, so switching this on changes nothing until you edit them.`;
+          const top = d.moved.slice(0, 3).map(m =>
+            `${esc(m.name)} ${m.from}&nbsp;&rarr;&nbsp;${m.to}`).join(", ");
+          const posList = [...new Set(d.moved.map(m => m.pos))].join(", ");
+          return `<b>${d.moved.length} player${d.moved.length === 1 ? "" : "s"} change</b>
+                  (${posList}): ${top}${d.moved.length > 3 ? " and more" : ""}.`;
+        })()}</span>
+    </div>
+    <div class="btnrow" style="margin-bottom:10px">
+      ${SCORING_PRESETS.map(pre =>
+        `<button class="btn ${presetMatches(pre) ? "btn-primary" : ""}"
+          data-preset="${pre.id}" title="${esc(pre.why)}">${esc(pre.label)}</button>`).join("")}
+    </div>
+    <div class="scoregrid">
+      ${SCORING_FIELDS.map(([k, label, hint]) => `
+        <div class="slotf">
+          <label for="sc-${k}" title="${esc(hint)}">${label}</label>
+          <input class="inp num" type="number" step="0.05" id="sc-${k}" value="${S.cfg.scoring[k]}">
+        </div>`).join("")}
+    </div>
+    <span class="hint"><b>What this cannot include.</b>
+      Your rules also award game-by-game bonuses — 300 and 400-yard passing games, 100 and
+      200-yard rushing and receiving games, 50-yard touchdowns — plus two-point conversions and
+      −2 per fumble lost. A season projection is a single total, so there is no way to tell how
+      those yards were distributed across seventeen weeks, and the fumble and conversion columns
+      are not in the export at all. Expect roughly five to ten points of understatement on a
+      front-line player. It lands about evenly on everyone at a position, so it barely disturbs
+      the order you draft in — which is what these numbers are for.</span>
+    <span class="hint">Kickers and defences keep the file's own points — there's no stat line
+      to rebuild them from, so your kicking and defensive rules are not applied. Turning this
+      off puts every number back exactly as imported.</span>
+    `}
+
+    <h2 class="sec">Starting lineup</h2>
+    <div class="slotgrid">
+      ${["QB","RB","WR","TE","FLEX","K","DST","BN"].map(k => `
+        <div class="slotf"><label for="slot-${k}">${k}</label>
+        <input class="inp num" type="number" id="slot-${k}" min="0" max="12" value="${c.slots[k] ?? 0}"></div>`).join("")}
+    </div>
+    <span class="hint">FLEX takes the best remaining RB, WR or TE. These drive your open-needs tags
+      and the replacement level behind value-over-replacement.</span>
+
+    <h2 class="sec">Survival model</h2>
+    <div class="field">
+      <label for="cfgVol">ADP volatility — ${c.vol.toFixed(2)}</label>
+      <input type="range" id="cfgVol" min="0.05" max="0.45" step="0.01" value="${c.vol}" style="width:100%">
+      <span class="hint">How far your room strays from public ADP. Lower means picks follow ADP tightly,
+        so survival odds get more confident. Raise it if your league reaches and falls a lot.</span>
+    </div>
+
+    <h2 class="sec">Team names</h2>
+    <div class="field">
+      <textarea class="ta" id="cfgNames" placeholder="One name per line, in draft order"
+        style="min-height:${Math.max(96, c.teams * 21)}px">${esc((c.names || []).join("\n"))}</textarea>
+      <span class="hint">Optional, but knowing who's on the clock by name is much faster to read in a live room.</span>
+    </div>
+
+    <h2 class="sec">In the room</h2>
+    <div class="field">
+      <label><input type="checkbox" id="cfgAwake" ${S.cfg.awake ? "checked" : ""}> Keep the screen awake</label>
+      <span class="hint">${wakeSupported()
+        ? "Stops the tablet sleeping between picks. Released automatically when you switch away."
+        : "This browser has no wake-lock support, so the screen will sleep on its own schedule."}</span>
+    </div>
+    <div class="field">
+      <label><input type="checkbox" id="cfgRehearse" ${S.cfg.rehearse ? "checked" : ""}> Rehearsal mode</label>
+      <span class="hint">Adds a <b>Sim</b> button to the top bar that drafts for the other
+        ${S.cfg.teams - 1} teams up to your turn, so you can run a full practice draft.
+        The bar shows a Rehearsal flag while it's on — turn it off and clear the picks before the real thing.</span>
+    </div>
+
+    <h2 class="sec">Appearance</h2>
+    <div class="field">
+      <select class="sel" id="cfgTheme">
+        <option value="dark"   ${theme==="dark"?"selected":""}>Dark — built for a dim draft room</option>
+        <option value="light"  ${theme==="light"?"selected":""}>Light</option>
+        <option value="system" ${theme==="system"?"selected":""}>Match my device</option>
+      </select>
+    </div>
+
+    <h2 class="sec">Backup &amp; moving between devices</h2>
+    <div class="banner banner-info"><span class="ic">&#8681;</span>
+      <span><b>Your setup does not travel with the file.</b>Rankings, article picks and settings
+      live in <em>this</em> browser on <em>this</em> device. To move a setup from a computer to
+      the tablet, save a backup file here and load it there.</span></div>
+    <div class="field">
+      <label for="loadBackup">Load a backup file</label>
+      <input class="inp" type="file" id="loadBackup">
+      <span class="hint">Pick the <b>draft-kit-….json</b> you saved. Replaces everything currently
+        loaded — rankings, notes, settings and picks.</span>
+    </div>
+    <div class="btnrow">
+      <button class="btn btn-primary" id="saveBackup">Save a backup file</button>
+      <button class="btn" id="exportState">Copy backup to clipboard</button>
+      <button class="btn" id="importState">Paste backup from clipboard</button>
+    </div>
+    <span class="hint">The file carries your ranking sets, article picks, league settings and
+      picks so far. Keep one on the tablet — if browser storage is ever cleared, loading it puts
+      everything back in a few seconds.</span>
+
+    <h2 class="sec">Start over</h2>
+    <div class="btnrow">
+      <button class="btn btn-danger" id="resetPicks">Clear all picks</button>
+      <button class="btn btn-danger" id="resetAll">Reset everything</button>
+    </div>
+    <div class="foot">
+      Your draft saves to this browser after every pick, so a crash or a closed tab won't lose it —
+      but browser storage can still be cleared, so save a backup file once your board is set up.
+      This page runs entirely offline: save it to the tablet
+      (browser menu &rarr; <b>Download page</b>), open it from Downloads, and it needs no signal at all.
+    </div>`;
+
+  wireSetup();
+  renderScan();
+  if (pendingRows) showMapper(pendingRows);   // survive a re-render mid-import
+}
+
+/* ---------------- column mapping UI ---------------- */
+let pendingRows = null, pendingMap = null, pendingName = "";
+let pendingNoteText = "", pendingNoteSource = "", pendingPol = "target", pendingScan = null;
+let pendingHurt = "O";
+
+function showMapper(rows) {
+  // Re-entrant: a re-render calls this again, so keep any choices already made.
+  if (pendingRows !== rows || !pendingMap) pendingMap = guessMap(rows[0]);
+  pendingRows = rows;
+  const header = rows[0];
+  const opts = i => header.map((h, j) =>
+    `<option value="${j}" ${i === j ? "selected" : ""}>${esc(h || "column " + (j+1))}</option>`).join("");
+  const fields = [
+    ["name","Player",   true],
+    ["pos","Position",  true],
+    ["team","Team",     false],
+    ["rank","Rank",     false],
+    ["tier","Tier",     false],
+    ["adp","ADP",       false],
+    ["bye","Bye",       false],
+    ["proj","Points",   false],
+  ];
+  document.getElementById("mapArea").innerHTML = `
+    <div class="card" style="margin-top:12px">
+      <div class="card-h"><span class="eyebrow">Match the columns</span>
+        <span class="eyebrow">${rows.length - 1} rows</span></div>
+      <div class="card-b">
+        <div class="maprow">
+          <label for="mapName">Name</label>
+          <input class="inp" id="mapName" value="${esc(pendingName)}" placeholder="e.g. RotoBaller PPR">
+        </div>
+        ${fields.map(([f, lab, req]) => `
+          <div class="maprow">
+            <label for="map-${f}">${lab}${req ? " *" : ""}</label>
+            <select class="sel" id="map-${f}" data-map="${f}">
+              <option value="-1">— none —</option>${opts(pendingMap[f])}
+            </select>
+          </div>`).join("")}
+        <div class="btnrow" style="margin-top:11px">
+          <button class="btn btn-primary" id="confirmMap">Use these rankings</button>
+          <button class="btn" id="cancelMap">Cancel</button>
+        </div>
+        <div class="hint" style="margin-top:8px">
+          Rank falls back to row order and ADP falls back to rank, so a bare name-and-position
+          list still works — you just lose the survival odds until ADP is present.
+        </div>
+      </div>
+    </div>`;
+
+  document.querySelectorAll("[data-map]").forEach(sel =>
+    sel.addEventListener("change", e => { pendingMap[e.target.dataset.map] = parseInt(e.target.value, 10); }));
+
+  document.getElementById("confirmMap").addEventListener("click", () => {
+    if (pendingMap.name < 0) { toast("Pick which column holds the player name."); return; }
+    const players = buildPlayers(pendingRows, pendingMap);
+    if (!players.length) { toast("No usable rows found in that file."); return; }
+    const nm = (document.getElementById("mapName")?.value || pendingName || "").trim();
+    // The sample board is scaffolding; a real list replaces it rather than
+    // averaging with it. Real lists accumulate.
+    if (S.isDemo) S.sources = [];
+    addSource(nm, players);
+    const withProj = players.filter(x => x.proj != null).length;
+    const withAdp  = players.filter(x => x.adp  != null).length;
+    pendingRows = pendingMap = null; pendingName = "";
+    S.ui.tab = "board";
+    commit();
+    const fit = fitScoring(players);
+    toast(`${nm || "List"}: ${players.length} players`
+      + (fit ? ` · looks like ${describeFit(fit)}` : ` · ${withAdp} with ADP, ${withProj} with points`));
+  });
+  document.getElementById("cancelMap").addEventListener("click", () => {
+    pendingRows = pendingMap = null;
+    document.getElementById("mapArea").innerHTML = "";
+  });
+}
+
+function commitPendingNotes() {
+  if (!pendingScan) return;
+  const picked = [...document.querySelectorAll("[data-hit]:checked")].map(x => x.dataset.hit);
+  if (!picked.length) { toast("Tick at least one player."); return; }
+  const box = document.getElementById("noteSource");
+  const src = ((box && box.value) || pendingNoteSource || "").trim() || "Unnamed source";
+  const all = [...pendingScan.sure, ...pendingScan.maybe];
+  let added = 0;
+  picked.forEach(pid => {
+    // one verdict per source per player - re-adding updates rather than piles up
+    if (S.notes.some(n => n.pid === pid && n.source === src && n.pol === pendingPol)) return;
+    const m = all.find(x => x.pid === pid);
+    S.notes.push({ pid, pol: pendingPol, source: src, snippet: m ? m.snippet : "",
+                   name: m ? m.name : "", pos: m ? m.pos : "" });
+    if (pendingPol === "hurt") setStatus(pid, pendingHurt);
+    added++;
+  });
+  pendingScan = null; pendingNoteText = ""; pendingNoteSource = src;
+  commit();
+  toast(`${added} ${POLARITY[pendingPol].word.toLowerCase()} note${added === 1 ? "" : "s"} added from ${src}.`);
+}
+
+function renderScan() {
+  const el = document.getElementById("scanArea");
+  if (!el) return;
+  if (!pendingScan) { el.innerHTML = ""; return; }
+  const { sure, maybe } = pendingScan;
+  const total = sure.length + maybe.length;
+  if (!total) {
+    el.innerHTML = `<div class="banner banner-info" style="margin-top:12px"><span class="ic">∅</span>
+      <span>No players from your board appear in that text. If the article uses nicknames or
+      first names only, paste a list of the full names instead.</span></div>`;
+    return;
+  }
+  const row = (m, checked) => `<label class="scanrow">
+      <input type="checkbox" data-hit="${esc(m.pid)}" ${checked ? "checked" : ""}>
+      <span class="pos" style="${posVar(m.pos)}">${m.pos}</span>
+      <span style="min-width:0">
+        <span class="scan-nm">${esc(m.name)} <span class="num" style="font-size:11px;color:var(--ink-3)">${esc(m.team)}</span></span>
+        <span class="scan-cx">${esc(m.snippet)}</span>
+      </span>
+    </label>`;
+  el.innerHTML = `
+    <div class="card" style="margin-top:12px">
+      <div class="scanhead">
+        <span class="eyebrow">Found ${total}</span>
+        <span class="eyebrow">${POLARITY[pendingPol].glyph} ${POLARITY[pendingPol].word}</span>
+      </div>
+      ${sure.length ? `<div class="card-b flush">${sure.map(m => row(m, true)).join("")}</div>` : ""}
+      ${maybe.length ? `
+        <div class="scanhead" style="border-top:1px solid var(--line)">
+          <span class="eyebrow">Matched on surname only — check these</span>
+        </div>
+        <div class="card-b flush">${maybe.map(m => row(m, false)).join("")}</div>` : ""}
+      <div class="card-b">
+        <div class="btnrow">
+          <button class="btn btn-primary" id="addNotes">Add to board</button>
+          <button class="btn" id="cancelScan">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function wireSetup() {
+  const on = (id, ev, fn) => { const e = document.getElementById(id); if (e) e.addEventListener(ev, fn); };
+
+  on("csvFile", "change", e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    pendingName = f.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ").slice(0, 40);
+    const r = new FileReader();
+    r.onload = () => {
+      const rows = parseCSV(String(r.result));
+      if (rows.length < 2) { toast("That file has no data rows."); return; }
+      showMapper(rows);
+    };
+    r.onerror = () => toast("Couldn't read that file.");
+    r.readAsText(f);
+  });
+
+  on("importText", "click", () => {
+    if (!pendingName) pendingName = `List ${S.sources.length + 1}`;
+    const t = document.getElementById("csvText").value;
+    if (!t.trim()) { toast("Paste your CSV into the box first."); return; }
+    const rows = parseCSV(t);
+    if (rows.length < 2) { toast("That doesn't look like a CSV with a header row."); return; }
+    showMapper(rows);
+  });
+
+  on("loadDemo", "click", () => { loadDemo(); toast("Sample board reloaded."); });
+
+  // --- article picks ---
+  on("noteText", "input", e => { pendingNoteText = e.target.value; });
+  on("noteSource", "input", e => { pendingNoteSource = e.target.value; });
+  document.querySelectorAll("[data-hurtcode]").forEach(b =>
+    b.addEventListener("click", () => {
+      pendingHurt = b.dataset.hurtcode;
+      document.querySelectorAll("[data-hurtcode]").forEach(x =>
+        x.setAttribute("aria-pressed", String(x.dataset.hurtcode === pendingHurt)));
+    }));
+
+  document.querySelectorAll("[data-pol]").forEach(b =>
+    b.addEventListener("click", () => {
+      pendingPol = b.dataset.pol;
+      renderSetup();      // the injury row appears or disappears with the choice
+    }));
+
+  on("scanNotes", "click", () => {
+    const txt = document.getElementById("noteText").value;
+    pendingNoteText = txt;
+    if (!txt.trim()) { toast("Paste the article text first."); return; }
+    if (!S.players.length) { toast("Load your rankings before adding article picks."); return; }
+    pendingScan = scanText(txt);
+    renderScan();
+    const n = pendingScan.sure.length + pendingScan.maybe.length;
+    toast(n ? `Found ${n} of your players.` : "No players from your board in that text.");
+  });
+
+
+  on("clearNotes", "click", () => {
+    if (!confirm(`Remove all ${S.notes.length} article notes? Rankings and picks are untouched.`)) return;
+    S.notes = []; commit(); toast("Notes cleared.");
+  });
+
+  document.querySelectorAll("[data-dropnotes]").forEach(b =>
+    b.addEventListener("click", () => {
+      const raw = b.dataset.dropnotes;
+      const cut = raw.lastIndexOf("|");
+      const src = raw.slice(0, cut), pol = raw.slice(cut + 1);
+      S.notes = S.notes.filter(n => !(n.source === src && n.pol === pol));
+      S.ui.openNotes = (S.ui.openNotes || []).filter(k => k !== raw);
+      commit(); toast("Removed.");
+    }));
+
+  document.querySelectorAll("[data-use]").forEach(b =>
+    b.addEventListener("click", () => {
+      S.activeSource = b.dataset.use;
+      refreshActive();
+      commit();
+      toast("Using " + activeSourceName() + ".");
+    }));
+
+  document.querySelectorAll("[data-opennotes]").forEach(b =>
+    b.addEventListener("click", () => {
+      const key = b.dataset.opennotes;
+      const open = S.ui.openNotes || (S.ui.openNotes = []);
+      const at = open.indexOf(key);
+      if (at >= 0) open.splice(at, 1); else open.push(key);
+      save(); renderSetup();
+    }));
+
+  document.querySelectorAll("[data-dropsrc]").forEach(b =>
+    b.addEventListener("click", () => {
+      const src = sourceById(b.dataset.dropsrc);
+      if (!src) return;
+      if (!confirm(`Remove "${src.name}"? Your picks stay — only this ranking set goes.`)) return;
+      removeSource(src.id);
+      if (!S.sources.length) loadDemo(); else commit();
+      toast("Removed.");
+    }));
+
+  const cfgNum = (id, key, min, max) => on(id, "change", e => {
+    let v = parseInt(e.target.value, 10);
+    if (!isFinite(v)) { e.target.value = S.cfg[key]; return; }
+    v = Math.max(min, Math.min(max, v));
+    if (v === S.cfg[key]) { e.target.value = v; return; }
+    // Re-seating rewrites who owns picks already logged, so say so first.
+    if (key === "teams" && S.picks.length &&
+        !confirm(`${S.picks.length} picks are already logged. Changing the league to ${v} teams `
+               + `re-assigns them to the teams a ${v}-team snake would have given. Continue?`)) {
+      e.target.value = S.cfg[key];
+      return;
+    }
+    S.cfg[key] = v;
+    if (key === "teams") {
+      S.cfg.mySlot = Math.min(S.cfg.mySlot, v);
+      reseatPicks();
+    }
+    commit();
+  });
+  cfgNum("cfgTeams", "teams", 2, 32);
+  cfgNum("cfgSlot", "mySlot", 1, S.cfg.teams);
+  cfgNum("cfgRounds", "rounds", 1, 40);
+
+  on("cfgTrr", "change", e => {
+    S.cfg.trr = e.target.checked;
+    reseatPicks();          // the reversal changes the order picks belong to
+    commit();
+  });
+  on("cfgAwake", "change", e => {
+    S.cfg.awake = e.target.checked;
+    keepAwake(S.cfg.awake);
+    save();
+    toast(S.cfg.awake ? "Screen will stay awake." : "Screen may sleep.");
+  });
+  on("cfgRehearse", "change", e => {
+    S.cfg.rehearse = e.target.checked;
+    commit();
+    toast(S.cfg.rehearse ? "Rehearsal on — Sim button added to the top bar." : "Rehearsal off.");
+  });
+
+  document.querySelectorAll("[data-preset]").forEach(b =>
+    b.addEventListener("click", () => {
+      const pre = SCORING_PRESETS.find(x => x.id === b.dataset.preset);
+      if (!pre) return;
+      Object.assign(S.cfg.scoring, pre.set);
+      S.cfg.scoring.on = true;
+      refreshActive(); commit();
+      const d = scoringDelta();
+      toast(d.moved.length
+        ? `${pre.label}: ${d.moved.length} player${d.moved.length === 1 ? "" : "s"} rescored.`
+        : `${pre.label}: matches the file, nothing changes.`);
+    }));
+
+  on("scOn", "change", e => {
+    S.cfg.scoring.on = e.target.checked;
+    refreshActive(); commit();
+    toast(S.cfg.scoring.on ? "Using your scoring." : "Back to the file's points.");
+  });
+  SCORING_FIELDS.forEach(([k]) => on("sc-" + k, "change", e => {
+    const v = parseFloat(e.target.value);
+    if (!isFinite(v)) return;
+    S.cfg.scoring[k] = v;
+    refreshActive(); commit();
+  }));
+
+  ["QB","RB","WR","TE","FLEX","K","DST","BN"].forEach(k =>
+    on("slot-" + k, "change", e => {
+      const v = Math.max(0, Math.min(12, parseInt(e.target.value, 10) || 0));
+      S.cfg.slots[k] = v; commit();
+    }));
+
+  on("cfgVol", "input", e => {
+    S.cfg.vol = parseFloat(e.target.value);
+    const lab = document.querySelector('label[for="cfgVol"]');
+    if (lab) lab.textContent = `ADP volatility — ${S.cfg.vol.toFixed(2)}`;
+    save();
+    renderBoard(); renderSide();
+  });
+
+  on("cfgNames", "change", e => {
+    S.cfg.names = e.target.value.split("\n").map(s => s.trim());
+    commit();
+  });
+
+  on("cfgTheme", "change", e => {
+    S.theme = e.target.value === "system" ? null : e.target.value;
+    applyTheme(); save();
+  });
+
+  on("saveBackup", "click", () => { downloadBackup(); });
+
+  on("loadBackup", "change", e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const got = applyBackup(JSON.parse(String(r.result)));
+        toast(`Restored ${got.players} players from ${got.lists} list${got.lists === 1 ? "" : "s"}`
+          + `, ${got.notes} note${got.notes === 1 ? "" : "s"}, ${got.picks} pick${got.picks === 1 ? "" : "s"}.`);
+      } catch (err) { toast("That file isn't a Draft Room backup."); }
+    };
+    r.onerror = () => toast("Couldn't read that file.");
+    r.readAsText(f);
+  });
+
+  on("exportState", "click", async () => {
+    const txt = backupPayload();
+    try { await navigator.clipboard.writeText(txt); toast("Backup copied to clipboard."); }
+    catch (err) {
+      const ta = document.getElementById("csvText");
+      if (ta) { ta.value = txt; ta.select(); }
+      toast("Clipboard blocked — the backup is in the paste box above, copy it manually.");
+    }
+  });
+
+  on("importState", "click", async () => {
+    try {
+      const txt = await navigator.clipboard.readText();
+      const got = applyBackup(JSON.parse(txt));
+      toast(`Restored ${got.players} players, ${got.picks} picks.`);
+    } catch (err) { toast("Clipboard didn't contain a Draft Room backup."); }
+  });
+
+  on("resetPicks", "click", () => {
+    if (!S.picks.length) { toast("There are no picks to clear."); return; }
+    if (confirm(`Clear all ${S.picks.length} recorded picks? Your rankings and settings stay.`)) {
+      S.picks = []; commit(); toast("Picks cleared.");
+    }
+  });
+
+  on("resetAll", "click", () => {
+    if (confirm("Reset everything — rankings, picks and settings — back to the sample board?")) {
+      const theme = S.theme;
+      S = defaults(); S.theme = theme;
+      loadDemo(); toast("Reset.");
+    }
+  });
+}
+
+/* ================================================================
+   ASSIGN SHEET — for out-of-order picks and corrections
+   ================================================================ */
+function openSheet(pid) {
+  const p = S.players.find(x => x.id === pid);
+  if (!p) return;
+  const cur = currentPick();
+  const now = teamOnClock(cur);
+  const btns = [];
+  for (let i = 0; i < S.cfg.teams; i++) {
+    btns.push(`<button class="pick-team ${i === now ? "now" : ""}" data-team="${i}">
+      <span>${esc(teamName(i))}${i === S.cfg.mySlot - 1 ? " (you)" : ""}</span>
+      <span class="tag">${i === now ? "ON THE CLOCK" : ""}</span>
+    </button>`);
+  }
+  const notes = notesFor(pid);
+  document.getElementById("sheet").innerHTML = `
+    <div class="sheet-h">
+      <div class="sheet-t">${esc(p.name)}</div>
+      <div class="sheet-s">${esc(p.pos)}${p.pr ?? ""} · ${esc(p.team)}${p.bye ? " · BYE " + p.bye : ""}
+        ${p.adp != null ? " · ADP " + Math.round(p.adp) : ""}
+        ${p._edge != null ? ` · room has him ${p.pos}${p.apr}` : ""}</div>
+    </div>
+    <div class="sheet-b" style="padding-bottom:2px">
+      <div class="eyebrow" style="margin-bottom:7px">Availability</div>
+      <div class="filters" style="gap:5px">
+        <button class="fbtn" data-status="" aria-pressed="${!statusOf(pid)}">Fit</button>
+        ${STATUS_CODES.map(c => `<button class="fbtn" data-status="${c}"
+          aria-pressed="${statusOf(pid) === c}"
+          style="${statusOf(pid) === c ? `color:var(--${STATUS[c].tone});border-color:var(--${STATUS[c].tone})` : ""}"
+          title="${STATUS[c].word}">${c}</button>`).join("")}
+      </div>
+    </div>
+    ${notes.length ? `<div class="sheet-b" style="padding-bottom:4px">
+      <div class="eyebrow" style="margin-bottom:7px">What you've read</div>
+      ${notes.map((n, i) => `<div class="noterow">
+        <div class="note-h">
+          <span class="ntag" style="color:var(--${POLARITY[n.pol].tone})">${POLARITY[n.pol].glyph} ${POLARITY[n.pol].word}</span>
+          <span class="note-src">${esc(n.source)}</span>
+          <button class="xbtn" data-delnote="${esc(n.pid)}|${i}" title="Remove this note">✕</button>
+        </div>
+        ${n.snippet ? `<div class="note-snip">${esc(n.snippet)}</div>` : ""}
+      </div>`).join("")}
+    </div>` : ""}
+    <div class="sheet-b">
+      <div class="eyebrow" style="margin-bottom:7px">Drafted by</div>
+      ${btns.join("")}
+      <button class="btn" id="sheetCancel" style="width:100%;margin-top:9px">Cancel</button>
+    </div>`;
+  document.getElementById("scrim").classList.add("on");
+  document.getElementById("sheet").dataset.pid = pid;
+}
+function closeSheet() { document.getElementById("scrim").classList.remove("on"); }
+
+/* Logging a pick for a player nobody's list contains. Name and position are
+   optional - the point is to keep the count straight, and anything you do
+   type makes the log and the other team's roster read properly. */
+let offBoardPos = "—";   // module state, NOT a data- attribute on the sheet:
+                         // parking it there made closest() match the container
+                         // and swallow every click inside it
+function openOffBoardSheet() {
+  offBoardPos = "—";
+  const cur = currentPick();
+  const now = teamOnClock(cur);
+  document.getElementById("sheet").innerHTML = `
+    <div class="sheet-h">
+      <div class="sheet-t">Someone not on your board</div>
+      <div class="sheet-s">Pick ${cur} &middot; keeps your clock in step with the room</div>
+    </div>
+    <div class="sheet-b">
+      <div class="field">
+        <label for="obName">Name heard</label>
+        <input class="inp" id="obName" placeholder="optional" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="obPos">Position</label>
+        <div class="filters" style="gap:5px">
+          ${["—", ...POS].map(p =>
+            `<button class="fbtn" data-obpos="${p}" aria-pressed="${p === "—"}"
+              ${POS.includes(p) ? `style="${posVar(p)}" data-pos="${p}"` : ""}>${p}</button>`).join("")}
+        </div>
+        <span class="hint">Only needed so the drafting team's roster count stays right.</span>
+      </div>
+      <div class="eyebrow" style="margin:11px 0 7px">Drafted by</div>
+      ${[...Array(S.cfg.teams).keys()].map(i =>
+        `<button class="pick-team ${i === now ? "now" : ""}" data-obteam="${i}">
+          <span>${esc(teamName(i))}${i === S.cfg.mySlot - 1 ? " (you)" : ""}</span>
+          <span class="tag">${i === now ? "ON THE CLOCK" : ""}</span>
+        </button>`).join("")}
+      <button class="btn" id="sheetCancel" style="width:100%;margin-top:9px">Cancel</button>
+    </div>`;
+  document.getElementById("scrim").classList.add("on");
+  document.getElementById("sheet").dataset.pid = "";
+}
+
+/* ================================================================
+   EVENTS
+   ================================================================ */
+document.getElementById("tabs").addEventListener("click", e => {
+  const t = e.target.closest(".tab");
+  if (!t) return;
+  S.ui.tab = t.dataset.tab;
+  save(); render();
+});
+
+document.getElementById("undoBtn").addEventListener("click", undo);
+
+document.getElementById("simBtn").addEventListener("click", () => {
+  const n = simulateToMyPick();
+  toast(n ? `Simulated ${n} pick${n === 1 ? "" : "s"} — you're up.` : "Nothing left to simulate.");
+});
+
+// A wake lock needs the page visible and, on some builds, a gesture first.
+document.addEventListener("click", () => keepAwake(true), { once: true });
+
+document.getElementById("srcrow").addEventListener("click", e => {
+  const b = e.target.closest("[data-src]");
+  if (!b) return;
+  S.activeSource = b.dataset.src;
+  refreshActive();
+  commit();
+});
+
+document.getElementById("verdict").addEventListener("click", e => {
+  const b = e.target.closest("[data-f]");
+  if (!b) return;
+  S.ui.filter = b.dataset.f;
+  save(); renderFilters(); renderBoard();
+});
+
+document.getElementById("filters").addEventListener("click", e => {
+  const b = e.target.closest(".fbtn");
+  if (!b) return;
+  S.ui.filter = b.dataset.f;
+  save(); renderFilters(); renderBoard();
+});
+
+const searchEl = document.getElementById("search");
+searchEl.addEventListener("input", e => { S.ui.q = e.target.value; renderBoard(); });
+searchEl.addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  const first = document.querySelector("#board .row");
+  if (first) { draftPlayer(first.dataset.pid); searchEl.value = ""; S.ui.q = ""; renderBoard(); }
+});
+
+document.getElementById("sort").addEventListener("change", e => {
+  S.ui.sort = e.target.value; save(); renderBoard();
+});
+
+// VORP needs a projected-points column; say so rather than sorting by nothing.
+function syncSortOptions() {
+  const set = (val, ok, on, off) => {
+    const opt = document.querySelector(`#sort option[value="${val}"]`);
+    if (!opt) return;
+    opt.disabled = !ok;
+    opt.textContent = ok ? on : off;
+    if (!ok && S.ui.sort === val) {
+      S.ui.sort = "rank";
+      document.getElementById("sort").value = "rank";
+    }
+  };
+  set("vorp", hasProj(),
+      "Value over replacement", "Value over replacement (needs a points column)");
+  set("value", S.players.some(p => p.adpReal),
+      "My rank vs ADP", "My rank vs ADP (needs an ADP column)");
+}
+
+// One tap on the board = that player goes to whoever is on the clock.
+// Long-press (or the star) does something else.
+let pressT = null, pressed = false;
+document.getElementById("board").addEventListener("pointerdown", e => {
+  const row = e.target.closest(".row");
+  if (!row || e.target.closest("[data-q]")) return;
+  pressed = false;
+  pressT = setTimeout(() => { pressed = true; openSheet(row.dataset.pid); }, 480);
+});
+const clearPress = () => { clearTimeout(pressT); };
+["pointerup","pointercancel","pointerleave"].forEach(ev =>
+  document.getElementById("board").addEventListener(ev, clearPress));
+// Scrolling the board is a drag, not a long-press.
+document.getElementById("board").addEventListener("pointermove", e => {
+  if (pressT && (Math.abs(e.movementX) > 3 || Math.abs(e.movementY) > 3)) clearPress();
+}, { passive: true });
+
+document.getElementById("board").addEventListener("click", e => {
+  if (e.target.closest("#offBoardBtn")) { openOffBoardSheet(); return; }
+  const goto = e.target.closest("[data-goto]");
+  if (goto) { S.ui.tab = goto.dataset.goto; save(); render(); return; }
+  const star = e.target.closest("[data-q]");
+  if (star) { toggleQueue(star.dataset.q); return; }
+  const row = e.target.closest(".row");
+  if (!row) return;
+  if (pressed) { pressed = false; return; }   // long-press already handled it
+  draftPlayer(row.dataset.pid);
+  if (S.ui.q) { searchEl.value = ""; S.ui.q = ""; renderBoard(); }
+});
+
+document.getElementById("pane-setup").addEventListener("click", e => {
+  if (e.target.closest("#addNotes"))   { commitPendingNotes(); return; }
+  if (e.target.closest("#cancelScan")) { pendingScan = null; renderScan(); return; }
+});
+
+document.getElementById("logView").addEventListener("click", e => {
+  if (e.target.closest("#offBoardBtn2")) { openOffBoardSheet(); return; }
+  const del = e.target.closest("[data-del]");
+  if (!del) return;
+  removePick(parseInt(del.dataset.del, 10));
+});
+
+document.getElementById("scrim").addEventListener("click", e => {
+  const del = e.target.closest("[data-delnote]");
+  if (del) {
+    const at = del.dataset.delnote.lastIndexOf("|");
+    const pid = del.dataset.delnote.slice(0, at);
+    const idx = parseInt(del.dataset.delnote.slice(at + 1), 10);
+    const mine = notesFor(pid);
+    if (mine[idx]) S.notes.splice(S.notes.indexOf(mine[idx]), 1);
+    commit();
+    openSheet(pid);          // keep the sheet open on the player you were reading
+    return;
+  }
+  const st = e.target.closest("button[data-status]");
+  if (st) {
+    const pid = document.getElementById("sheet").dataset.pid;
+    if (pid) {
+      setStatus(pid, st.dataset.status);
+      commit();
+      openSheet(pid);        // stay where you are, with the new flag showing
+    }
+    return;
+  }
+  const obPos = e.target.closest("button[data-obpos]");
+  if (obPos) {
+    offBoardPos = obPos.dataset.obpos;
+    [...document.querySelectorAll("button[data-obpos]")].forEach(b =>
+      b.setAttribute("aria-pressed", String(b === obPos)));
+    return;
+  }
+  const obTeam = e.target.closest("button[data-obteam]");
+  if (obTeam) {
+    const nameBox = document.getElementById("obName");
+    const p = addOffBoard(nameBox ? nameBox.value : "", offBoardPos, "");
+    refreshActive();
+    draftPlayer(p.id, parseInt(obTeam.dataset.obteam, 10));
+    closeSheet();
+    toast(`Logged ${esc(p.name)} to ${teamName(parseInt(obTeam.dataset.obteam, 10))}.`);
+    return;
+  }
+  if (e.target.id === "scrim" || e.target.id === "sheetCancel") { closeSheet(); return; }
+  const t = e.target.closest("[data-team]");
+  if (!t) return;
+  const pid = document.getElementById("sheet").dataset.pid;
+  draftPlayer(pid, parseInt(t.dataset.team, 10));
+  closeSheet();
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeSheet();
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
+  if (typing) return;
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") { e.preventDefault(); undo(); }
+  if (e.key === "/") { e.preventDefault(); S.ui.tab = "board"; render(); searchEl.focus(); }
+});
+
+/* ================================================================
+   SAMPLE BOARD
+   Placeholder names so the tool is explorable before an import.
+   Deliberately routed through the real CSV parser. NOT rankings.
+   ================================================================ */
+const DEMO_CSV = `RK,TIERS,PLAYER NAME,TEAM,POS,BYE WEEK,ADP,PROJ
+1,1,Ja'Marr Chase,CIN,WR1,10,1.4,318
+2,1,Bijan Robinson,ATL,RB1,5,2.2,312
+3,1,Justin Jefferson,MIN,WR2,6,3.6,301
+4,1,Jahmyr Gibbs,DET,RB2,8,4.1,298
+5,2,CeeDee Lamb,DAL,WR3,10,5.5,289
+6,2,Saquon Barkley,PHI,RB3,9,6.2,292
+7,2,Puka Nacua,LAR,WR4,8,7.8,281
+8,2,Malik Nabers,NYG,WR5,11,8.6,276
+9,2,Amon-Ra St. Brown,DET,WR6,8,9.9,274
+10,2,Christian McCaffrey,SF,RB4,12,10.8,268
+11,3,Nico Collins,HOU,WR7,6,12.1,262
+12,3,Brian Thomas Jr.,JAX,WR8,8,13.0,259
+13,3,De'Von Achane,MIA,RB5,12,13.9,264
+14,3,Ashton Jeanty,LV,RB6,8,15.2,255
+15,3,Brock Bowers,LV,TE1,8,16.4,238
+16,3,A.J. Brown,PHI,WR9,9,17.1,251
+17,3,Drake London,ATL,WR10,5,18.3,248
+18,4,Derrick Henry,BAL,RB7,7,19.6,244
+19,4,Josh Jacobs,GB,RB8,5,20.8,241
+20,4,Bucky Irving,TB,RB9,9,22.0,236
+21,4,Tee Higgins,CIN,WR11,10,23.4,232
+22,4,Ladd McConkey,LAC,WR12,12,24.6,229
+23,4,Trey McBride,ARI,TE2,8,25.5,214
+24,4,Kyren Williams,LAR,RB10,8,27.1,225
+25,5,Chase Brown,CIN,RB11,10,28.4,221
+26,5,Tyreek Hill,MIA,WR13,12,29.8,218
+27,5,Breece Hall,NYJ,RB12,9,31.0,216
+28,5,Davante Adams,LAR,WR14,8,32.5,213
+29,5,Jaxon Smith-Njigba,SEA,WR15,8,33.9,211
+30,5,Josh Allen,BUF,QB1,7,35.2,392
+31,5,James Cook,BUF,RB13,7,36.6,208
+32,5,Terry McLaurin,WAS,WR16,12,37.8,205
+33,6,Lamar Jackson,BAL,QB2,7,39.1,381
+34,6,Marvin Harrison Jr.,ARI,WR17,8,40.4,202
+35,6,Kenneth Walker III,SEA,RB14,8,41.9,199
+36,6,Omarion Hampton,LAC,RB15,12,43.2,196
+37,6,DK Metcalf,PIT,WR18,5,44.5,194
+38,6,Garrett Wilson,NYJ,WR19,9,45.8,192
+39,6,George Kittle,SF,TE3,12,47.0,196
+40,7,Jayden Daniels,WAS,QB3,12,48.3,374
+41,7,Zay Flowers,BAL,WR20,7,49.7,189
+42,7,Alvin Kamara,NO,RB16,11,51.0,187
+43,7,Courtland Sutton,DEN,WR21,11,52.4,185
+44,7,Sam LaPorta,DET,TE4,8,53.8,181
+45,7,Chuba Hubbard,CAR,RB17,12,55.1,182
+46,7,DJ Moore,CHI,WR22,5,56.5,180
+47,8,TreVeyon Henderson,NE,RB18,12,58.0,178
+48,8,Jaylen Waddle,MIA,WR23,12,59.3,176
+49,8,Jalen Hurts,PHI,QB4,9,60.6,362
+50,8,Rashee Rice,KC,WR24,10,62.0,174
+51,8,RJ Harvey,DEN,RB19,11,63.4,172
+52,8,Travis Kelce,KC,TE5,10,64.8,169
+53,8,Xavier Worthy,KC,WR25,10,66.1,170
+54,9,Tony Pollard,TEN,RB20,10,67.5,168
+55,9,Joe Burrow,CIN,QB5,10,68.9,356
+56,9,Aaron Jones,MIN,RB21,6,70.2,166
+57,9,Jerry Jeudy,CLE,WR26,9,71.6,164
+58,9,David Montgomery,DET,RB22,8,73.0,162
+59,9,T.J. Hockenson,MIN,TE6,6,74.3,158
+60,9,Chris Godwin,TB,WR27,9,75.7,160
+61,10,Isiah Pacheco,KC,RB23,10,77.1,158
+62,10,Patrick Mahomes,KC,QB6,10,78.4,348
+63,10,Jameson Williams,DET,WR28,8,79.8,156
+64,10,Travis Etienne,JAX,RB24,8,81.2,154
+65,10,Mark Andrews,BAL,TE7,7,82.5,150
+66,10,Rome Odunze,CHI,WR29,5,83.9,152
+67,10,Quinshon Judkins,CLE,RB25,9,85.3,150
+68,11,Calvin Ridley,TEN,WR30,10,86.6,148
+69,11,Baker Mayfield,TB,QB7,9,88.0,336
+70,11,Tyrone Tracy,NYG,RB26,11,89.4,146
+71,11,Jordan Addison,MIN,WR31,6,90.7,144
+72,11,David Njoku,CLE,TE8,9,92.1,142
+73,11,Bo Nix,DEN,QB8,11,93.5,330
+74,11,Jaylen Warren,PIT,RB27,5,94.8,140
+75,12,Khalil Shakir,BUF,WR32,7,96.2,139
+76,12,Cam Skattebo,NYG,RB28,11,97.6,138
+77,12,Evan Engram,DEN,TE9,11,98.9,136
+78,12,Travis Hunter,JAX,WR33,8,100.3,136
+79,12,Kyler Murray,ARI,QB9,8,101.7,322
+80,12,Brian Robinson,WAS,RB29,12,103.0,134
+81,13,Ricky Pearsall,SF,WR34,12,104.4,132
+82,13,Tucker Kraft,GB,TE10,5,105.8,130
+83,13,Rhamondre Stevenson,NE,RB30,12,107.1,130
+84,13,Deebo Samuel,WAS,WR35,12,108.5,128
+85,13,Justin Fields,NYJ,QB10,9,109.9,314
+86,13,Najee Harris,LAC,RB31,12,111.2,126
+87,14,Colston Loveland,CHI,TE11,5,112.6,122
+88,14,Jordan Mason,MIN,RB32,6,114.0,124
+89,14,Caleb Williams,CHI,QB11,5,115.3,308
+90,14,Zach Charbonnet,SEA,RB33,8,116.7,122
+91,14,Tyler Warren,IND,TE12,11,118.1,118
+92,14,Brock Purdy,SF,QB12,12,119.4,304
+93,15,Trey Benson,ARI,RB34,8,120.8,118
+94,15,Dak Prescott,DAL,QB13,10,122.2,299
+95,15,Tank Bigsby,JAX,RB35,8,123.5,114
+96,15,Justin Herbert,LAC,QB14,12,124.9,295
+97,15,Drake Maye,NE,QB15,12,126.3,290
+98,16,Brandon Aubrey,DAL,K1,10,140.0,148
+99,16,Denver Broncos,DEN,DST1,11,142.0,126
+100,16,Cameron Dicker,LAC,K2,12,144.0,142
+101,16,Philadelphia Eagles,PHI,DST2,9,146.0,122
+102,16,Chris Boswell,PIT,K3,5,148.0,140
+103,16,Baltimore Ravens,BAL,DST3,7,150.0,120
+104,16,Jake Bates,DET,K4,8,152.0,136
+105,16,Houston Texans,HOU,DST4,6,154.0,118
+106,16,Ka'imi Fairbairn,HOU,K5,6,156.0,134
+107,16,Pittsburgh Steelers,PIT,DST5,5,158.0,116
+108,16,Minnesota Vikings,MIN,DST6,6,160.0,114`;
+
+function loadDemo() {
+  const rows = parseCSV(DEMO_CSV);
+  S.sources = [];
+  addSource("Sample board", buildPlayers(rows, guessMap(rows[0])));
+  S.picks = [];
+  S.queue = [];
+  S.isDemo = true;
+  commit();
+}
+
+/* ================================================================
+   BOOT
+   ================================================================ */
+/* A save written before ranking sets existed holds a flat players[] whose
+   picks point at row ids ("p7"). Rehome it as one set and translate those
+   ids to the stable player keys, so an in-progress draft isn't lost. */
+function migrate() {
+  if (S.sources.length || !Array.isArray(S.players) || !S.players.length) return;
+  const old = S.players;
+  const idMap = {};
+  old.forEach((pl, i) => {
+    const wasId = pl.id != null ? pl.id : "p" + i;
+    idMap[wasId] = playerKey(pl.name, pl.pos, pl.team);
+  });
+  assignKeys(old);
+  S.picks = S.picks.map(pk => ({ ...pk, pid: idMap[pk.pid] || pk.pid }));
+  S.queue = S.queue.map(q => idMap[q] || q);
+  S.sources = [{ id: "s_migrated", name: S.isDemo ? "Sample board" : "Imported list", players: old }];
+  S.activeSource = "s_migrated";
+}
+migrate();
+refreshActive();
+if (!S.sources.length) loadDemo();
+searchEl.value = S.ui.q || "";
+document.getElementById("sort").value = S.ui.sort || "rank";
+render();
+</script>
