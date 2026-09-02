@@ -37,6 +37,13 @@ pick, and **Setup → Backup** writes a file you can carry to another device.
 
 ## Notes
 
-Rankings exports are not included here — bring your own. The app ships with a
-small sample board, clearly labelled, so the interface is explorable before you
-import anything.
+This repository is private, because the saved backup checked in alongside the
+app carries a full set of parsed rankings — third-party projections that should
+not be redistributed. Raw CSV exports stay untracked.
+
+The app itself ships with a small sample board, clearly labelled, so the
+interface is explorable before importing anything.
+
+To set up a new device, load `draft-kit.html`, then **Setup → Load a backup
+file** and pick the `draft-kit-<date>.json` here. That restores the rankings,
+league settings, scoring, notes and flags in one step.

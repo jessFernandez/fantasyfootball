@@ -1,6 +1,7 @@
-# Third-party rankings exports. Kept out deliberately: this repository is
-# public, and these are RotoBaller's projections — the "premium" file is
-# subscriber content. Keep your own copies locally and import them in the app.
+# Third-party rankings exports. The repository is private, so this is no longer
+# about disclosure — the saved backup already carries the parsed rankings, and
+# the raw CSVs would only be a second copy. Drop this line if you want them
+# tracked as a fallback.
 *.csv
 
 # Scratch files from testing
