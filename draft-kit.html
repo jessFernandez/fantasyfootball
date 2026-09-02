@@ -2,7 +2,18 @@
 <title>Draft Room</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
+<!-- Loaded as a print stylesheet so it cannot block the first paint, then
+     promoted once it arrives. A draft venue's wifi is likelier to be bad than
+     absent, and a stalled font request held the page for 32 seconds; the board
+     has to be usable immediately, in the fallback faces if need be. -->
+<link id="webfonts" rel="stylesheet" media="print"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
+<script>
+  (function () {
+    var wf = document.getElementById("webfonts");
+    if (wf) wf.addEventListener("load", function () { wf.media = "all"; });
+  })();
+</script>
 
 <style>
 /* ============================================================
