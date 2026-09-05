@@ -37,9 +37,10 @@ pick, and **Setup → Backup** writes a file you can carry to another device.
 
 ## Notes
 
-This repository is private, because the saved backup checked in alongside the
-app carries a full set of parsed rankings — third-party projections that should
-not be redistributed. Raw CSV exports stay untracked.
+Checked in alongside the app is a saved backup, `draft-kit-<date>.json`, which
+carries a full set of parsed rankings from a third-party projections export.
+Raw CSV exports stay untracked — the backup already holds the same data in
+parsed form.
 
 The app itself ships with a small sample board, clearly labelled, so the
 interface is explorable before importing anything.

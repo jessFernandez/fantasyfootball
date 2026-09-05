@@ -1,7 +1,6 @@
-# Third-party rankings exports. The repository is private, so this is no longer
-# about disclosure — the saved backup already carries the parsed rankings, and
-# the raw CSVs would only be a second copy. Drop this line if you want them
-# tracked as a fallback.
+# Raw rankings exports. The saved backup already carries the same data in
+# parsed form, so tracking these too would only be a second copy. Drop this
+# line if you want them here as a fallback.
 *.csv
 
 # Scratch files from testing
