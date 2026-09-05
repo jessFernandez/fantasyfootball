@@ -46,5 +46,6 @@ The app itself ships with a small sample board, clearly labelled, so the
 interface is explorable before importing anything.
 
 To set up a new device, load `draft-kit.html`, then **Setup → Load a backup
-file** and pick the `draft-kit-<date>.json` here. That restores the rankings,
-league settings, scoring, notes and flags in one step.
+file** and pick the most recent `draft-kit-<date>.json` here. That restores the
+rankings, league settings, scoring, article notes and injury flags in one step.
+Older dated backups are kept as fallbacks; the newest is the one to load.
